@@ -1,3 +1,26 @@
 <header>
-    Header goes here!
+    <!-- Bootstrap navbar class used as template here -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">GuardianLink</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+
+            <!-- created 'activePage' variable in app.js in order to highlight current page on navbar -->
+            <li class="nav-item <%= currentPage === 'home' ? 'active' : '' %>">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item <%= currentPage === 'login' ? 'active' : '' %>">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item <%= currentPage === 'register' ? 'active' : '' %>">
+              <a class="nav-link" href="/register">Registration</a>
+            </li>
+          </ul>
+          <li class="nav-item"></li>
+          <a class="nav-link" href="#">Logout</a>
+        </div>
+      </nav>
 </header>
