@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./backend/app.js",
     "start-nd": "npx nodemon --exec \"node ./backend/app.js\"",
+    "stop": "killall node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
