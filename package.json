@@ -4,7 +4,8 @@
   "description": "Website project to connect volunteers and non-profit organizations",
   "main": "app.js",
   "scripts": {
-    "start": "node backend/app.js",
+    "start": "node ./backend/app.js",
+    "start-nd": "npx nodemon --exec \"node ./backend/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
