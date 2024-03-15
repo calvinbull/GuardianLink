@@ -1,15 +1,26 @@
 body {
-    background-color: lightskyblue;
-    font-size: 2rem;
+    background-color: rgb(174, 224, 255);
+    padding-bottom: 3rem;
 }
 
-header, footer {
-    background-color: lightskyblue;
-    padding: 1rem;
-    font-size: 1rem;
+header {
+    background-color: rgb(88, 185, 245);
 }
 
 main {
-    background-color: lightskyblue;
-    padding: 1rem;
+    margin-top: 2rem;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: #333; /* Background color */
+    color: #fff; /* Text color */
+    padding: 0.5rem 1rem; /* Padding */
+    border-top-left-radius: 1rem; /* Rounded corners */
+}
+
+main {
+    background-color: rgb(174, 224, 255);
 }
