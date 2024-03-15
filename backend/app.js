@@ -25,9 +25,18 @@ const __dirname = path.dirname(__filename);
 
 // default route
 app.get('/', (req, res) => {
-    res.render('pages/home', { pageTitle: 'Home' });
+    res.render('pages/home', { pageTitle: 'Home', currentPage: 'home' });
 });
 
+// login
+app.get('/login', (req, res) => {
+    res.render('pages/login', { pageTitle: 'Login', currentPage: 'login' });
+});
+
+// registration
+app.get('/register', (req, res) => {
+    res.render('pages/register', { pageTitle: 'Registration', currentPage: 'register' });
+});
 
 
 // start server

@@ -1,0 +1,81 @@
+<!-- registration -->
+
+<%
+    // Create a content variable containing the body
+    var content = `
+        <h1>Register for a new GuardianLink account</h1>
+
+        <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-2 pt-0">Select the applicable option:</legend>
+              <div class="col-sm-10">
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="registerOrganization" value="organization">
+                  <label class="form-check-label" for="registerOrganization">
+                    I represent a Non-Profit Organization or NGO
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="registerIndividual" value="individual">
+                  <label class="form-check-label" for="registerIndividual">
+                    I am an individual volunteer (Cybersecurity Specialist)
+                  </label>
+                </div>
+
+              </div>
+            </div>
+        </fieldset>
+
+        <!-- form to be used for Non-profits and NGOs -->
+        <form id="OrganizationRegistration" style="display: none;">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+        <!-- form to be used for Volunteers (Cybersecurity Specialists) -->
+        <form id="VolunteerRegistration" style="display: none;">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+        <script>
+            // Add event listeners to radio buttons to toggle form type
+            document.getElementById('registerOrganization').addEventListener('change', function() {
+                document.getElementById('OrganizationRegistration').style.display = 'block';
+                document.getElementById('VolunteerRegistration').style.display = 'none';
+            });
+
+            document.getElementById('registerIndividual').addEventListener('change', function() {
+                document.getElementById('OrganizationRegistration').style.display = 'none';
+                document.getElementById('VolunteerRegistration').style.display = 'block';
+            });
+        </script>
+
+    `;
+%>
+
+<%- include('../layouts/layout.ejs', { body: content }) %>
