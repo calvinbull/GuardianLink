@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "guardianlink",
   "version": "1.0.0",
   "description": "Website project to connect volunteers and non-profit organizations",
