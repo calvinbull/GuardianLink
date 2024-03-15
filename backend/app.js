@@ -1,7 +1,13 @@
 // entry point for server
-
 import express from 'express';
 let app = express();
+
+
+// constants
+const HOST = '127.0.0.1';
+const PORT = 3000;
+
+
 
 // initialize EJS template engine
 app.set('view engine', 'ejs');
@@ -26,8 +32,8 @@ app.get('/', (req, res) => {
 app.use(express.static('public'));
 
 // start server
-app.listen(3000, () => {
-    console.log("Server is listening on port 3000");
+app.listen(PORT, HOST, () => {
+    console.log(`Server running at http://${hostname}:${port}/`)
 } );
 
 // kill server
