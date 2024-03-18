@@ -6,6 +6,19 @@ let app = express();
 const HOST = '127.0.0.1';
 const PORT = 3000;
 
+// set up logger
+import winston from 'winston';
+const logger = winston.createLogger({
+    level: 'info', // Set the logging level (e.g., 'info', 'error', 'debug')
+    format: winston.format.json(), // Use JSON format for logs
+    transports: [
+        new winston.transports.File({ filename: 'error.log', level: 'error' }), // Log errors to a file
+        new winston.transports.File({ filename: 'combined.log' }) // Log all messages to another file
+    ]
+});
+
+// initialize database
+
 
 // initialize EJS template engine
 app.set('view engine', 'ejs');
@@ -19,6 +32,12 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
+
+
+
+
 
 
 // route definitions
