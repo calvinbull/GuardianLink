@@ -2,7 +2,12 @@
 import express from 'express';
 let app = express();
 
+// initialize bcrypt for hashing
+import bcrypt from 'bcrypt';
+const saltRounds = 10; // salt rounds used for hashing
+
 // constants
+// TODO: replace with env file
 const HOST = '127.0.0.1';
 const PORT = 3000;
 
@@ -16,6 +21,8 @@ const logger = winston.createLogger({
         new winston.transports.File({ filename: 'combined.log' }) // Log all messages to another file
     ]
 });
+
+
 
 // initialize database
 
