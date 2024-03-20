@@ -5,7 +5,7 @@ const databasePath = './database/guardian_link.db';
 // initialize bcrypt for hashing
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // salt rounds used for hashing
-const defaultPassword = bcrypt.hash('changeme', saltRounds);
+const defaultPassword = bcrypt.hashSync('changeme', saltRounds);
 
 
 // import logger
@@ -90,13 +90,5 @@ db.serialize(() => {
     });
 });
 
-
-// // close the database
-// db.close((error) => {
-//     if (error) {
-//         logger.error('Error closing database connection:', error.message);
-//     }
-//     else {
-//         logger.info('Database connection closed');
-//     }
-// })
+// export database connection to app
+module.exports = db;

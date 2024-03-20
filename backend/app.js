@@ -2,6 +2,7 @@
 const express = require('express');
 let app = express();
 
+
 // initialize bcrypt for hashing
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // salt rounds used for hashing
@@ -13,21 +14,22 @@ const PORT = 3000;
 
 // set up logger
 const winston = require('winston');
+const { combine, timestamp, json } = winston.format;
 const logger = winston.createLogger({
-    level: 'info', // Set the logging level (e.g., 'info', 'error', 'debug')
-    format: winston.format.json(), // Use JSON format for logs
+    level: 'info',
+    format: combine(timestamp(), json()),
     transports: [
         new winston.transports.File({ filename: 'error.log', level: 'error' }), // Log errors to a file
         new winston.transports.File({ filename: 'combined.log' }) // Log all messages to another file
     ]
 });
 logger.info('Starting new instance of GuardianLink server.');
+
 // export logger
 module.exports = logger;
 
 // initialize database
-require('../database/DBConnect');
-
+const db = require('../database/DBConnect');
 
 // initialize EJS template engine
 app.set('view engine', 'ejs');
@@ -35,16 +37,6 @@ app.set('view engine', 'ejs');
 app.set('views', './backend/views');
 // set static asset folder for EJS
 app.use(express.static('public'));
-
-// // __dirname workaround for ES module
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-
-
-
 
 
 
@@ -67,6 +59,7 @@ app.get('/register', (req, res) => {
 });
 
 
+
 // start server
 app.listen(PORT, HOST, () => {
     console.log(`Server running at http://${HOST}:${PORT}/`)
@@ -74,7 +67,22 @@ app.listen(PORT, HOST, () => {
 
 // kill server
 process.on('SIGINT', () => {
-    process.exit(0)
-    console.log('Server closed')
-});// set static asset folder for EJS
-app.use(express.static('public'));
+    logger.info('Shutting down server.');
+
+    // close the database
+    db.close((error) => {
+        if (error) {
+            logger.error('Error closing database connection:', error.message);
+        }
+        else {
+            logger.info('Database connection closed');
+        }
+        
+        // close the server
+        logger.info('Server closed');
+        // exit after winston logger sends 'finish' event
+        logger.on('finish', function() {
+            process.exit(0);
+        });
+    })
+});
