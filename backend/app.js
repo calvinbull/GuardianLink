@@ -79,7 +79,7 @@ process.on('SIGINT', () => {
         }
         
         // close the server
-        logger.info('Server closed');
+        logger.end();
         // exit after winston logger sends 'finish' event
         logger.on('finish', function() {
             process.exit(0);
