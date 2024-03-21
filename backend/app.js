@@ -1,6 +1,7 @@
 // entry point for server
 const express = require('express');
-let app = express();
+const app = express();
+app.use(express.json());
 
 
 // initialize bcrypt for hashing
@@ -12,21 +13,9 @@ const saltRounds = 10; // salt rounds used for hashing
 const HOST = '127.0.0.1';
 const PORT = 3000;
 
-// set up logger
-const winston = require('winston');
-const { combine, timestamp, json } = winston.format;
-const logger = winston.createLogger({
-    level: 'info',
-    format: combine(timestamp(), json()),
-    transports: [
-        new winston.transports.File({ filename: 'error.log', level: 'error' }), // Log errors to a file
-        new winston.transports.File({ filename: 'combined.log' }) // Log all messages to another file
-    ]
-});
-logger.info('Starting new instance of GuardianLink server.');
+//imports
+const logger = require('./middleware/logger');
 
-// export logger
-module.exports = logger;
 
 // initialize database
 const db = require('../database/DBConnect');
@@ -40,9 +29,8 @@ app.use(express.static('public'));
 
 
 
-
 // route definitions
-
+// GET routes
 // default route
 app.get('/', (req, res) => {
     res.render('pages/home', { pageTitle: 'Home', currentPage: 'home' });
@@ -60,10 +48,35 @@ app.get('/connections', (req, res) => {
     res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections' });
 });
 
+// POST routes
+// register user to database
+app.post('/register', (req, res) => {
+    const { accountType, name, username, email, password, 
+        availability, backgroundCheck, isCurrentlyAvailable, 
+        linkedin, concerns, missionStatement } = req.body;
+    console.log(req.body);
+
+    db.run(`INSERT INTO users (accountType, name, username, email, password, 
+                availability, backgroundCheck, isCurrentlyAvailable, 
+                linkedin, concerns, missionStatement) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
+                [accountType, name, username, email, bcrypt.hashSync(password, saltRounds), 
+                    availability, backgroundCheck, isCurrentlyAvailable, 
+                    linkedin, concerns, missionStatement], (err) => {
+        if (err) {
+            console.error(err.message);
+            logger.error('Error registering user: ', err.message);
+        } else {
+            logger.info('User registered successfully');
+        }
+    });
+});
+
 
 // start server
 app.listen(PORT, HOST, () => {
     console.log(`Server running at http://${HOST}:${PORT}/`)
+    logger.info(`Server running at http://${HOST}:${PORT}/`)
 } );
 
 // kill server
@@ -71,9 +84,9 @@ process.on('SIGINT', () => {
     logger.info('Shutting down server.');
 
     // close the database
-    db.close((error) => {
-        if (error) {
-            logger.error('Error closing database connection:', error.message);
+    db.close((err) => {
+        if (err) {
+            logger.error('Error closing database connection:', err.message);
         }
         else {
             logger.info('Database connection closed');
