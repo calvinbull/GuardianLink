@@ -47,17 +47,18 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.render('pages/home', { pageTitle: 'Home', currentPage: 'home' });
 });
-
 // login
 app.get('/login', (req, res) => {
     res.render('pages/login', { pageTitle: 'Login', currentPage: 'login' });
 });
-
 // registration
 app.get('/register', (req, res) => {
     res.render('pages/register', { pageTitle: 'Registration', currentPage: 'register' });
 });
-
+// Connections
+app.get('/connections', (req, res) => {
+    res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections' });
+});
 
 
 // start server
