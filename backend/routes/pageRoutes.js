@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function(authorizationController) {
 
     // GET routes
     const express = require('express');
@@ -17,9 +17,11 @@ module.exports = function() {
         res.render('pages/register', { pageTitle: 'Registration', currentPage: 'register' });
     });
     // Connections
-    router.get('/connections', (req, res) => {
+    router.get('/connections', authorizationController, (req, res) => {
+        // authorizationController gatekeeps page to logged in users
         res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections' });
     });
+
 
     // Export the routes
     return router;

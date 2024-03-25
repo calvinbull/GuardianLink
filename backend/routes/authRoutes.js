@@ -1,6 +1,6 @@
 
 // wrap all exports in a function in order to use the initial db connection reference
-module.exports = function(db, logger) {
+module.exports = function(db, logger, passport) {
     // POST routes
     const express = require('express');
     const router = express.Router();
@@ -30,6 +30,21 @@ module.exports = function(db, logger) {
             }
         });
     });
+
+    // login
+    router.post('/login', passport.authenticate('local', {
+        successRedirect: '/connections',
+        failureRedirect: '/login',
+    }));
+
+    // logout
+    router.post('/logout', function(req, res, next) {
+        req.logout(function(err) {
+            if (err) { return next(err); }
+            res.redirect('/');
+        });
+    });
+      
 
     return router;
 }
