@@ -51,7 +51,6 @@ document.getElementById('VolunteerRegistration').addEventListener('submit', func
             },
             body: newAccount
         });
-        console.log('Password2 is: '+password);
         console.log('New user account registered.');
     } catch (err) {
         console.log('Error registering user during form POST request.');

@@ -45,7 +45,7 @@ app.use(express.static('public'));
 
 
 // Import routes
-const { authorizationController } = require('./authController');
+const { authorizationController } = require('./controllers/authController');
 const pageRoutes = require('./routes/pageRoutes')(authorizationController);
 const authRoutes = require('./routes/authRoutes')(db, logger, passport);
 // Use routes
