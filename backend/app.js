@@ -33,7 +33,7 @@ app.use(express.static('public'));
 
 
 // Import routes
-const pageRoutes = require('./routes/pageRoutes');
+const pageRoutes = require('./routes/pageRoutes')();
 const authRoutes = require('./routes/authRoutes')(db); // pass db object reference
 // Use routes
 app.use('/', pageRoutes);
@@ -43,8 +43,8 @@ app.use('/auth', authRoutes);
 // start server
 const serverOptions = { key: fs.readFileSync(serverKey), cert: fs.readFileSync(serverCertificate) };
 https.createServer(serverOptions, app).listen(PORT, HOST, () => {
-    console.log(`Server running at http://${HOST}:${PORT}/`)
-    logger.info(`Server running at http://${HOST}:${PORT}/`)
+    console.log(`Server running at https://${HOST}:${PORT}/`)
+    logger.info(`Server running at https://${HOST}:${PORT}/`)
 } );
 
 // kill server
