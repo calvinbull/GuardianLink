@@ -9,17 +9,22 @@ document.getElementById('login').addEventListener('submit', function(event) {
 
     // send post request for login attempt
     const loginRequest = JSON.stringify({ username, password });
-    try {
-        fetch('/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: newAccount
-        });
-        console.log('User logged in.');
-    } catch (err) {
+
+    fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: loginRequest
+    }).then(response => {
+        // POST login logic returns a redirect request, this code is to follow it
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+            console.log('Error logging in user.');
+        }
+    }).catch(err => {
         console.log('Error logging in user.');
-    }
+    });
 
 });
