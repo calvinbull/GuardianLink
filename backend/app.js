@@ -2,6 +2,8 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+const https = require('https');
+const fs = require('fs');
 
 
 // initialize bcrypt for hashing
@@ -12,6 +14,8 @@ const saltRounds = 10; // salt rounds used for hashing
 // TODO: replace with env file
 const HOST = '127.0.0.1';
 const PORT = 3000;
+const serverKey = '';
+const serverCertificate = '';
 
 //imports
 const logger = require('./middleware/logger');
@@ -74,7 +78,8 @@ app.post('/register', (req, res) => {
 
 
 // start server
-app.listen(PORT, HOST, () => {
+const serverOptions = { key: fs.readFileSync(serverKey), cert: fs.readFileSync(serverCertificate) };
+https.createServer(serverOptions, app).listen(PORT, HOST, () => {
     console.log(`Server running at http://${HOST}:${PORT}/`)
     logger.info(`Server running at http://${HOST}:${PORT}/`)
 } );
