@@ -44,7 +44,7 @@ document.getElementById('VolunteerRegistration').addEventListener('submit', func
     const newAccount = JSON.stringify({ accountType, name, username, email, password, 
         availability, backgroundCheck, isCurrentlyAvailable, linkedin, concerns, missionStatement });
     try {
-        fetch('/register', {
+        fetch('/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ document.getElementById('OrganizationRegistration').addEventListener('submit', f
     const newAccount = JSON.stringify({ accountType, name, username, email, password, 
         availability, backgroundCheck, isCurrentlyAvailable, linkedin, concerns, missionStatement });
     try {
-        fetch('/register', {
+        fetch('/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

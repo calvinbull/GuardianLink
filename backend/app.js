@@ -6,10 +6,6 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-// initialize bcrypt for hashing
-const bcrypt = require('bcrypt');
-const saltRounds = 10; // salt rounds used for hashing
-
 // constants
 // TODO: replace with env file
 const HOST = '127.0.0.1';
@@ -34,7 +30,7 @@ app.use(express.static('public'));
 
 // Import routes
 const pageRoutes = require('./routes/pageRoutes')();
-const authRoutes = require('./routes/authRoutes')(db); // pass db object reference
+const authRoutes = require('./routes/authRoutes')(db, logger);
 // Use routes
 app.use('/', pageRoutes);
 app.use('/auth', authRoutes);
