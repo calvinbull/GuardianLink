@@ -14,8 +14,8 @@ const saltRounds = 10; // salt rounds used for hashing
 // TODO: replace with env file
 const HOST = '127.0.0.1';
 const PORT = 3000;
-const serverKey = '';
-const serverCertificate = '';
+const serverKey = './middleware/server.key';
+const serverCertificate = './middleware/server.cert';
 
 //imports
 const logger = require('./middleware/logger');
