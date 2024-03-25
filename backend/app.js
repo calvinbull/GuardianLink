@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 const https = require('https');
 const fs = require('fs');
-
+const path = require('path');
 
 // initialize bcrypt for hashing
 const bcrypt = require('bcrypt');
@@ -14,8 +14,8 @@ const saltRounds = 10; // salt rounds used for hashing
 // TODO: replace with env file
 const HOST = '127.0.0.1';
 const PORT = 3000;
-const serverKey = './middleware/server.key';
-const serverCertificate = './middleware/server.cert';
+const serverKey = path.join(__dirname, 'security', 'cert.key');
+const serverCertificate = path.join(__dirname, 'security', 'cert.pem');
 
 //imports
 const logger = require('./middleware/logger');
@@ -32,49 +32,12 @@ app.set('views', './backend/views');
 app.use(express.static('public'));
 
 
-
-// route definitions
-// GET routes
-// default route
-app.get('/', (req, res) => {
-    res.render('pages/home', { pageTitle: 'Home', currentPage: 'home' });
-});
-// login
-app.get('/login', (req, res) => {
-    res.render('pages/login', { pageTitle: 'Login', currentPage: 'login' });
-});
-// registration
-app.get('/register', (req, res) => {
-    res.render('pages/register', { pageTitle: 'Registration', currentPage: 'register' });
-});
-// Connections
-app.get('/connections', (req, res) => {
-    res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections' });
-});
-
-// POST routes
-// register user to database
-app.post('/register', (req, res) => {
-    const { accountType, name, username, email, password, 
-        availability, backgroundCheck, isCurrentlyAvailable, 
-        linkedin, concerns, missionStatement } = req.body;
-    console.log(req.body);
-
-    db.run(`INSERT INTO users (accountType, name, username, email, password, 
-                availability, backgroundCheck, isCurrentlyAvailable, 
-                linkedin, concerns, missionStatement) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
-                [accountType, name, username, email, bcrypt.hashSync(password, saltRounds), 
-                    availability, backgroundCheck, isCurrentlyAvailable, 
-                    linkedin, concerns, missionStatement], (err) => {
-        if (err) {
-            console.error(err.message);
-            logger.error('Error registering user: ', err.message);
-        } else {
-            logger.info('User registered successfully');
-        }
-    });
-});
+// Import routes
+const pageRoutes = require('./routes/pageRoutes');
+const authRoutes = require('./routes/authRoutes')(db); // pass db object reference
+// Use routes
+app.use('/', pageRoutes);
+app.use('/auth', authRoutes);
 
 
 // start server
