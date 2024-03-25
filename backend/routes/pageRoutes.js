@@ -26,6 +26,11 @@ module.exports = function(authorizationController) {
         // authorizationController gatekeeps page to logged in users
         res.render('pages/account', { pageTitle: 'My Account', currentPage: 'account' });
     });
+    // Messages page
+    router.get('/messages', authorizationController, (req, res) => {
+        // authorizationController gatekeeps page to logged in users
+        res.render('pages/account', { pageTitle: 'My Messages', currentPage: 'messages' });
+    });
 
     // Export the routes
     return router;
