@@ -33,7 +33,7 @@ module.exports = function(db, logger, passport) {
 
     // login
     router.post('/login', passport.authenticate('local', {
-        successRedirect: '/connections',
+        successRedirect: '/account',
         failureRedirect: '/login',
     }));
 
