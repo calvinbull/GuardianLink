@@ -8,7 +8,7 @@ document.getElementById('logout').addEventListener('click', function(event) {
     event.preventDefault(); 
 
     // sent logout post request
-    fetch('/logout', {
+    fetch('/auth/logout', {
         method: 'POST',
     }).then(function() {
         // redirect to home
