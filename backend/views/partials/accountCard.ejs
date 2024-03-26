@@ -1,42 +1,66 @@
 <!-- account summary card, changes displayed fields based on user account type -->
 <!-- edit / message buttons conditional on which page the card is being loaded in to -->
 
-<div class="col-md-8">
+<div class="col-md-12" >
     <div class="card mb-3">
         <div class="card-body">
 
-            <% Object.keys(account).forEach(function(property)  { %>
-                <% if((account[property] !== null) && propertyLabels[property]) { %>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h6 class="mb-0"><%= propertyLabels[property] %></h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                            <%= account[property] %>
-                        </div>
-                    </div>
-                    <hr>
-                <% } %>
-            <% }); %>
-
-            <!-- field applicable to all
-
-            <!-- edit button for my account page only -->
-            <% if (currentPage == 'account') { %>
-                <div class="row">
-                    <div class="col-sm-12">
-                    <a class="btn btn-info " target="#" href="#" id="edit">Edit</a>
-                    </div>
+            <!-- name is seperate to avoid being collapsed on connections page -->
+            <div class="row align-items-center">
+                <div class="col-sm-3 text-secondary">
+                    <h5 class="mb-0"><%= propertyLabels['name'] %></h6>
                 </div>
-            <% } %>
+                <div class="col">
+                    <h5 class="mb-0"><%= account['name'] %></h5>
+                </div>
 
-            <!-- message button for messages page only -->
+                <!-- edit button for my account page only -->
+                <% if (currentPage == 'account') { %>
+                    <div class="col text-right">
+                        <a class="btn btn-info mr-2" target="#" href="#" id="edit">Edit</a>
+                    </div>
+                <% } %>
+
+                <!-- buttons for connections page only -->
+                <% if (currentPage == 'connections') { %>
+                    <div class="col text-right">
+                        <!-- Collapse toggle button -->
+                        <button class="btn btn-primary toggle-button" type="button" data-toggle="collapse" data-target="#collapse<%= account.username %>" aria-expanded="false" aria-controls="collapse<%= account.username %>">
+                            Toggle Details
+                        </button>
+                    </div>
+                <% } %>
+            
+            </div>
+
+            <!-- rows other than 'name' gain collapseable property for use on connections page -->
+            <% if (currentPage == 'connections') { %>
+            <div class="collapse" id="collapse<%= account.username %>">
+            <% } %>
+            <hr>
+                <% Object.keys(account).forEach(function(property)  { %>
+                    <% if((account[property] !== null) && propertyLabels[property] && property != 'name' && property != 'name') { %>
+                        <div class="row">
+                            <div class="col-sm-3 text-secondary">
+                                <h6 class="mb-0"><%= propertyLabels[property] %></h6>
+                            </div>
+                            <div class="col">
+                                <%= account[property] %>
+                            </div>
+                        </div>
+                        <hr>
+                    <% } %>
+                <% }); %>
+
+            <!-- add message button and close div for connections page -->
             <% if (currentPage == 'connections') { %>
                 <div class="row">
-                    <div class="col-sm-12">
-                    <a class="btn btn-info " target="#" href="#" id="message">Message</a>
+                    <div class="col  text-right">
+                        <!-- message button -->
+                        <a class="btn btn-info" href="/messages?sendTo=<%= account.username %>">Message</a>
                     </div>
                 </div>
+            </div>
             <% } %>
 
         </div>

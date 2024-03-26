@@ -15,9 +15,9 @@ footer {
     position: fixed;
     bottom: 0;
     right: 0;
-    background-color: #333; /* Background color */
+    background-color: #333;
     color: #fff; /* Text color */
-    padding: 0.5rem 1rem; /* Padding */
+    padding: 0.5rem 1rem;
     border-top-left-radius: 1rem; /* Rounded corners */
 }
 
