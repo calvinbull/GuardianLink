@@ -10,11 +10,16 @@
         <div id="accountCardsContainer">
             <!-- Iterate over accounts data to display account cards -->
             <% accounts.forEach(function(account) { %>
+
                 <div class="accountCard">
                     <h2><%= account.name %></h2>
-                    <p>Account Type: <%= account.accountType %></p>
-                    <!-- Add more properties as needed -->
+                    <% Object.keys(account).forEach(function(property)  { %>
+                        <% if(account[property] !== null ) { %>
+                                <p><%= propertyLabels[property] %>: <%= account[property] %></p>
+                        <% } %>
+                    <% }); %>
                 </div>
+
             <% }); %>
         </div>
 

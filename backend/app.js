@@ -10,6 +10,9 @@ const fs = require('fs');
 const path = require('path');
 const logger = require('./middleware/logger');
 
+// import propertLabels for human readability
+const propertyLabels = require('../public/js/propertyLabels');
+
 // constants
 // TODO: replace with env file
 const HOST = '127.0.0.1';
@@ -53,7 +56,7 @@ app.use(express.static('public'));
 // Import routes
 const { authorizationController } = require('./controllers/authController');
 const { loggedOutController } = require('./controllers/loggedOutController');
-const pageRoutes = require('./routes/pageRoutes')(db, logger, authorizationController, loggedOutController);
+const pageRoutes = require('./routes/pageRoutes')(db, logger, authorizationController, loggedOutController, propertyLabels);
 const authRoutes = require('./routes/authRoutes')(db, logger, passport);
 // Use routes
 app.use('/', pageRoutes);
