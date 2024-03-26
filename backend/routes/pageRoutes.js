@@ -59,7 +59,7 @@ module.exports = function(db, logger, authorizationController, loggedOutControll
     // My account page
     router.get('/account', authorizationController, (req, res) => {
         // authorizationController gatekeeps page to logged in users
-        res.render('pages/account', { pageTitle: 'My Account', currentPage: 'account', user:req.user, propertyLabels: propertyLabels });
+        res.render('pages/account', { pageTitle: 'My Account', currentPage: 'account', account: req.user, propertyLabels: propertyLabels });
     });
 
     // Messages page
