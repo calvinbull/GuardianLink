@@ -35,6 +35,12 @@ app.use(session({
 require('./middleware/passportConfig')(passport, db);
 app.use(passport.initialize());
 app.use(passport.session());
+// configure res.locals.isAuthenticated so that it can be used by embedded JS page views
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.isAuthenticated();
+    next();
+});
+
 
 // initialize EJS template engine
 app.set('view engine', 'ejs');

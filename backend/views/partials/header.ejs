@@ -12,18 +12,29 @@
             <li class="nav-item <%= currentPage === 'home' ? 'active' : '' %>">
               <a class="nav-link" href="/">Home</a>
             </li>
-            <li class="nav-item <%= currentPage === 'connections' ? 'active' : '' %>">
-              <a class="nav-link" href="/connections">Connections</a>
-            </li>
-            <li class="nav-item <%= currentPage === 'login' ? 'active' : '' %>">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item <%= currentPage === 'register' ? 'active' : '' %>">
-              <a class="nav-link" href="/register">Registration</a>
-            </li>
+
+            <!-- Check whether a user is logged in or not based on res.locals.isAuthenticated from app.js -->
+            <% if (isAuthenticated) { %>
+              <!-- Elements to show when user is logged in -->
+              <li class="nav-item <%= currentPage === 'connections' ? 'active' : '' %>">
+                <a class="nav-link" href="/connections">Connections</a>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-primary" id="logout">Logout</button>
+              </li>
+              
+            <% } else { %>
+              <!-- Elements to show when user is not logged in -->
+              <li class="nav-item <%= currentPage === 'login' ? 'active' : '' %>">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item <%= currentPage === 'register' ? 'active' : '' %>">
+                <a class="nav-link" href="/register">Registration</a>
+              </li>
+            <% } %>
+            
           </ul>
-          <li class="nav-item"></li>
-          <a class="nav-link" href="#" id="logout">Logout</a>
+          
         </div>
       </nav>
 </header>
