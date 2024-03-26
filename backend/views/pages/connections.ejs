@@ -6,22 +6,15 @@
 <!-- page body -->
 <h1>Connections</h1>
 
-        <!-- Container for account cards -->
-        <div id="accountCardsContainer">
-            <!-- Iterate over accounts data to display account cards -->
-            <% accounts.forEach(function(account) { %>
+    <!-- Container for account cards -->
+    <div id="accountCardsContainer">
+        <!-- Iterate over accounts data to display account cards -->
+        <% accounts.forEach(function(account) { %>
 
-                <div class="accountCard">
-                    <h2><%= account.name %></h2>
-                    <% Object.keys(account).forEach(function(property)  { %>
-                        <% if(account[property] !== null ) { %>
-                                <p><%= propertyLabels[property] %>: <%= account[property] %></p>
-                        <% } %>
-                    <% }); %>
-                </div>
+            <%- include('../partials/accountCard.ejs', { account: account }) %>
 
-            <% }); %>
-        </div>
+        <% }); %>
+    </div>
 
 <script src="/js/connections.js"></script>
 
