@@ -53,7 +53,7 @@ app.use(express.static('public'));
 // Import routes
 const { authorizationController } = require('./controllers/authController');
 const { loggedOutController } = require('./controllers/loggedOutController');
-const pageRoutes = require('./routes/pageRoutes')(authorizationController, loggedOutController);
+const pageRoutes = require('./routes/pageRoutes')(db, logger, authorizationController, loggedOutController);
 const authRoutes = require('./routes/authRoutes')(db, logger, passport);
 // Use routes
 app.use('/', pageRoutes);
