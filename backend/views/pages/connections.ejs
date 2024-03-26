@@ -1,12 +1,24 @@
 <!-- Connections page, where to discover other accounts -->
 
-<%
-    // Create a content variable containing the body
-    var content = `
-        <h1>Connections</h1>
+<!-- add first part of layout template -->
+<%- include('../layouts/layoutFirst.ejs') %>
 
-    ` 
-    + '<script src="/js/connections.js"></script>';
-%>
+<!-- page body -->
+<h1>Connections</h1>
 
-<%- include('../layouts/layout.ejs', { body: content }) %>
+        <!-- Container for account cards -->
+        <div id="accountCardsContainer">
+            <!-- Iterate over accounts data to display account cards -->
+            <% accounts.forEach(function(account) { %>
+                <div class="accountCard">
+                    <h2><%= account.name %></h2>
+                    <p>Account Type: <%= account.accountType %></p>
+                    <!-- Add more properties as needed -->
+                </div>
+            <% }); %>
+        </div>
+
+<script src="/js/connections.js"></script>
+
+<!-- add last part of layout template -->
+<%- include('../layouts/layoutLast.ejs') %>

@@ -1,15 +1,11 @@
 <!-- My account page. Display account info with option to update info or delete account. -->
 
-<%
-    // Create a content variable containing the body
-    var content = `
-        <!-- Display user's account information -->
-        <h1>Account Information</h1>
-        <br>
+<!-- add first part of layout template -->
+<%- include('../layouts/layoutFirst.ejs') %>
 
-    `
-    + include('../partials/accountCard.ejs')
-    + '<script src="/js/account.js"></script>';
-%>
+<!-- page body -->
+<%- include('../partials/accountCard.ejs') %>
+<script src="/js/account.js"></script>
 
-<%- include('../layouts/layout.ejs', { body: content }) %>
+<!-- add last part of layout template -->
+<%- include('../layouts/layoutLast.ejs') %>

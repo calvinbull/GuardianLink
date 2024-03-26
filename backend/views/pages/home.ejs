@@ -1,11 +1,11 @@
 <!-- homepage -->
 
-<%
-    // Create a content variable containing the body
-    var content = `
-        <h1>Welcome to GuardianLink</h1>
-        <p>This is the homepage of GuardianLink. We connect cybersecurity volunteers with non-profit organizations in need.</p>
-    `;
-%>
+<!-- add first part of layout template -->
+<%- include('../layouts/layoutFirst.ejs') %>
 
-<%- include('../layouts/layout.ejs', { body: content }) %>
+<!-- page body -->
+<h1>Welcome to GuardianLink</h1>
+<p>This is the homepage of GuardianLink. We connect cybersecurity volunteers with non-profit organizations in need.</p>
+
+<!-- add last part of layout template -->
+<%- include('../layouts/layoutLast.ejs') %>

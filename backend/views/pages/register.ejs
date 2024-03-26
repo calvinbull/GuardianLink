@@ -1,36 +1,37 @@
 <!-- registration -->
 
-<%
-    // Create a content variable containing the body
-    var content = `
-        <h1>Register for a new GuardianLink account</h1>
+<!-- add first part of layout template -->
+<%- include('../layouts/layoutFirst.ejs') %>
 
-        <fieldset class="form-group">
-            <div class="row">
-              <legend class="col-form-label col-sm-2 pt-0">Select the applicable option:</legend>
-              <div class="col-sm-10">
+<!-- page body -->
+<h1>Register for a new GuardianLink account</h1>
 
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="registerOrganization" value="organization">
-                  <label class="form-check-label" for="registerOrganization">
-                    I represent a Non-Profit Organization or NGO
-                  </label>
-                </div>
+<fieldset class="form-group">
+    <div class="row">
+      <legend class="col-form-label col-sm-2 pt-0">Select the applicable option:</legend>
+      <div class="col-sm-10">
 
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="registerIndividual" value="individual">
-                  <label class="form-check-label" for="registerIndividual">
-                    I am an individual volunteer (Cybersecurity Specialist)
-                  </label>
-                </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gridRadios" id="registerOrganization" value="organization">
+          <label class="form-check-label" for="registerOrganization">
+            I represent a Non-Profit Organization or NGO
+          </label>
+        </div>
 
-              </div>
-            </div>
-        </fieldset>      
-    ` 
-    + include('../partials/organizationRegistrationForm.ejs')
-    + include('../partials/volunteerRegistrationForm.ejs')
-    + '<script src="/js/registrationForms.js"></script>';
-%>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gridRadios" id="registerIndividual" value="individual">
+          <label class="form-check-label" for="registerIndividual">
+            I am an individual volunteer (Cybersecurity Specialist)
+          </label>
+        </div>
 
-<%- include('../layouts/layout.ejs', { body: content }) %>
+      </div>
+    </div>
+</fieldset> 
+
+<%- include('../partials/organizationRegistrationForm.ejs') %>
+<%- include('../partials/volunteerRegistrationForm.ejs') %>
+<script src="/js/registrationForms.js"></script>
+
+<!-- add last part of layout template -->
+<%- include('../layouts/layoutLast.ejs') %>

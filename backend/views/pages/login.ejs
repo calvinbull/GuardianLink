@@ -1,23 +1,26 @@
 <!-- login -->
 
-<%
-    // Create a content variable containing the body
-    var content = `
-        <h1>Please log in to use GuardianLink</h1>
-        <form id="login">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
-            </div>
+<!-- add first part of layout template -->
+<%- include('../layouts/layoutFirst.ejs') %>
 
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password">
-            </div>
+<!-- page body -->
+<h1>Please log in to use GuardianLink</h1>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    ` + '<script src="/js/login.js"></script>';
-%>
+<form id="login">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+    </div>
 
-<%- include('../layouts/layout.ejs', { body: content }) %>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" placeholder="Password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script src="/js/login.js"></script>
+
+<!-- add last part of layout template -->
+<%- include('../layouts/layoutLast.ejs') %>

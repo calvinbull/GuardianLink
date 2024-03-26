@@ -1,12 +1,12 @@
 <!-- Messages page to view and send messages -->
 
-<%
-    // Create a content variable containing the body
-    var content = `
-        <h1>My Messages</h1>
+<!-- add first part of layout template -->
+<%- include('../layouts/layoutFirst.ejs') %>
 
-    ` 
-    + '<script src="/js/messages.js"></script>';
-%>
+<!-- page body -->
+<h1>My Messages</h1>
 
-<%- include('../layouts/layout.ejs', { body: content }) %>
+<script src="/js/messages.js"></script>
+
+<!-- add last part of layout template -->
+<%- include('../layouts/layoutLast.ejs') %>
