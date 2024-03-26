@@ -39,12 +39,12 @@ module.exports = function(db, logger, passport) {
 
     // logout
     router.post('/logout', function(req, res, next) {
+        // logout method provided by passport
         req.logout(function(err) {
             if (err) { return next(err); }
             res.redirect('/');
         });
     });
-      
 
     return router;
 }
