@@ -1,0 +1,127 @@
+<!-- account summary card, changes displayed fields based on user account type -->
+<!-- edit / message buttons conditional on which page the card is being loaded in to -->
+
+<div class="col-md-8">
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <!-- field applicable to all account types:  -->
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">Name</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    <%= user.name %>
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">Username</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    <%= user.username %>
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <h6 class="mb-0">Email</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                    <%= user.email %>
+                </div>
+            </div>
+            <hr>
+
+            <!-- fields applicable to NGO or Admin:  -->
+            <% if (user.accountType == 'organization' || user.accountType == 'super') { %>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Mission Statement</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <%= user.missionStatement %>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Concerns</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <%= user.concerns %>
+                    </div>
+                </div>
+                <hr>
+            <% } %>
+
+            <!-- fields applicable to volunteer or Admin:  -->
+            <% if (user.accountType == 'volunteer' || user.accountType == 'super') { %>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Available hours per week</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <%= user.availability %>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Currently availabile to work?</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <%= user.isCurrentlyAvailable %>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Possesses valid background check?</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <%= user.backgroundCheck %>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">LinkedIn</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <%= user.linkedin %>
+                    </div>
+                </div>
+                <hr>
+
+
+            <% } %>
+
+            <!-- edit button for my account page only -->
+            <% if (currentPage == 'account') { %>
+                <div class="row">
+                    <div class="col-sm-12">
+                    <a class="btn btn-info " target="#" href="#" id="edit">Edit</a>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- message button for messages page only -->
+            <% if (currentPage == 'messages') { %>
+                <div class="row">
+                    <div class="col-sm-12">
+                    <a class="btn btn-info " target="#" href="#" id="message">Message</a>
+                    </div>
+                </div>
+            <% } %>
+
+        </div>
+    </div>
+</div>

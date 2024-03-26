@@ -22,17 +22,17 @@ module.exports = function(authorizationController, loggedOutController) {
     // Connections
     router.get('/connections', authorizationController, (req, res) => {
         // authorizationController gatekeeps page to logged in users
-        res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections' });
+        res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections', user:req.user });
     });
     // My account page
     router.get('/account', authorizationController, (req, res) => {
         // authorizationController gatekeeps page to logged in users
-        res.render('pages/account', { pageTitle: 'My Account', currentPage: 'account' });
+        res.render('pages/account', { pageTitle: 'My Account', currentPage: 'account', user:req.user });
     });
     // Messages page
     router.get('/messages', authorizationController, (req, res) => {
         // authorizationController gatekeeps page to logged in users
-        res.render('pages/messages', { pageTitle: 'My Messages', currentPage: 'messages' });
+        res.render('pages/messages', { pageTitle: 'My Messages', currentPage: 'messages', user:req.user });
     });
 
     // Export the routes

@@ -3,9 +3,12 @@
 <%
     // Create a content variable containing the body
     var content = `
-        <h1>My Account</h1>
+        <!-- Display user's account information -->
+        <h1>Account Information</h1>
+        <br>
 
-    ` 
+    `
+    + include('../partials/accountCard.ejs')
     + '<script src="/js/account.js"></script>';
 %>
 

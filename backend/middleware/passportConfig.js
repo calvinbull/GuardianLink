@@ -35,7 +35,7 @@ module.exports = function(passport, db) {
     // passport method to add user identifier to session
     passport.serializeUser(function(user, cb) {
         process.nextTick(function() {
-            cb(null, { id: user.id, username: user.username });
+            cb(null, user);
         });    
     });
     
