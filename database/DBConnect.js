@@ -93,7 +93,17 @@ db.serialize(() => {
             logger.error('Error checking table existence: ', err.message);
             return;
         }
-        if (!row) {
+        // clear the table each time if table exists
+        if (row) {
+            try {
+                db.run(`DELETE FROM password_reset_tokens`);
+                logger.info('password_reset_tokens table wiped successfully.'); 
+            } catch (err) {
+                logger.error('Error wiping password_reset_tokens table: ', err.message);
+            }
+
+        } else {
+            // build new table if it doesn't exist
             try {
                 db.run(`CREATE TABLE IF NOT EXISTS password_reset_tokens (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
