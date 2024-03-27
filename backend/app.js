@@ -63,8 +63,9 @@ app.use(express.static('public'));
 const { authorizationController } = require('./controllers/authController');
 const { loggedOutController } = require('./controllers/loggedOutController');
 const { adminController } = require('./controllers/adminController');
+const { passwordResetToken } = require('./middleware/passwordResetToken');
 const pageRoutes = require('./routes/pageRoutes')(db, logger, authorizationController, loggedOutController, propertyLabels);
-const authRoutes = require('./routes/authRoutes')(db, logger, passport, authorizationController, adminController);
+const authRoutes = require('./routes/authRoutes')(db, logger, passport, authorizationController, adminController, passwordResetToken);
 // Use routes
 app.use('/', pageRoutes);
 app.use('/auth', authRoutes);

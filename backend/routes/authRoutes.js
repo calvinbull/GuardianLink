@@ -1,6 +1,6 @@
 
 // wrap all exports in a function in order to use the initial db connection reference
-module.exports = function(db, logger, passport, authorizationController, adminController) {
+module.exports = function(db, logger, passport, authorizationController, adminController, passwordResetToken) {
     // POST routes
     const express = require('express');
     const router = express.Router();
@@ -10,12 +10,13 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
     const saltRounds = Number(process.env.BCRYPT_SALT_ROUNDS); // salt rounds used for hashing
 
     // initialize a Nodemailer transporter for sending password reset links
+
     const nodemailer = require('nodemailer');
     const transporter = nodemailer.createTransport({
         service: process.env.EMAIL_SERVICE,
         auth: {
             user: process.env.EMAIL_ACCOUNT,
-            pass: process.env.EMAIL_ACCOUNT
+            pass: process.env.EMAIL_APP_PASSWORD
         }
     });
 
@@ -123,14 +124,50 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
                     // request is valid
                     logger.info('Valid password reset initiated.');
 
-                    // TODO: generate reset email here
-                    res.json({ message: 'Password reset email sent. Please check your email.' });
+                    // generate reset email
+                    // generate a password reset token for email
+                    const resetToken = passwordResetToken(username);
+                    // generate expiry time, 10 minutes from now (miliseconds)
+                    const tokenExpiry = Date.now() + (10 * 60 * 1000);
+
+                    // add valid token to password_reset_tokens database for later confirmation
+                    db.run('INSERT INTO password_reset_tokens (username, token, expiry) VALUES (?, ?, ?)',
+                        [username, resetToken, tokenExpiry], (err) => {
+                        if (err) {
+                            logger.error('Error storing password reset token: ', err);
+                            logger.error(username);
+                            logger.error(resetToken);
+                            logger.error(tokenExpiry);
+                            
+                        } else {
+                            // token stored successfully, proceed with email.
+                            // specifiy email options
+                            const mailOptions = {
+                                from: process.env.EMAIL_ACCOUNT,
+                                to: email,
+                                subject: `Password Reset Request for ${username}`,
+                                text: `Click the following link to reset your password:\nhttp://${process.env.SERVER_HOST}/resetPassword?token=${resetToken}`
+                            };
+
+                            // send email via nodemailer
+                            transporter.sendMail(mailOptions, (err, info) => {
+                                if (err) {
+                                    logger.error('Error sending email:', err);
+                                    res.status(500).json({ err: 'Error sending email' });
+                                } else {
+                                    logger.info('Password reset email sent.');
+                                    // browser alert of success
+                                    res.json({ message: 'Password reset email sent. Please check your email.' });
+                                }
+                            });
+                        }
+                    });
+                    
                 } else {
                     //request is not valid
                     logger.info('Password reset request is unauthorized.');
                     res.json({ message: 'Password reset request is unauthorized.' });
                 }
-                
             }
         });
 
