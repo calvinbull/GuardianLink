@@ -9,6 +9,8 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const logger = require('./middleware/logger');
+const helmet = require('helmet');
+const sslRedirect = require('express-sslify');
 
 // import propertLabels for human readability
 const propertyLabels = require('../public/js/propertyLabels');
@@ -27,13 +29,17 @@ const db = require('../database/DBConnect');
 
 // app initialization
 const app = express();
-app.use(express.json());
+// enable helmet to improve https header security and help prevent XSS and code injection threats
+app.use(helmet());
 // configure express-session
+app.use(express.json());
 app.use(session({
     secret: SESSION_KEY,
     resave: false,
     saveUninitialized: false
 }));
+// redirect HTTP to HTTPS
+app.use(sslRedirect.HTTPS());
 // configure passport
 require('./middleware/passportConfig')(passport, db);
 app.use(passport.initialize());
