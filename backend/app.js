@@ -15,10 +15,10 @@ const sslRedirect = require('express-sslify');
 // import propertLabels for human readability
 const propertyLabels = require('../public/js/propertyLabels');
 
-// constants
-// TODO: replace with env file
-const HOST = '127.0.0.1';
-const PORT = 3000;
+// constants & .env file import
+require('dotenv').config();
+const HOST = process.env.SERVER_HOST;
+const PORT = process.env.SERVER_PORT;
 const SERVER_KEY = path.join(__dirname, 'security', 'cert.key');
 const SERVER_CERTIFICATE = path.join(__dirname, 'security', 'cert.pem');
 const crypto = require('crypto');

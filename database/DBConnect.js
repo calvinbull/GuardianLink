@@ -6,8 +6,8 @@ const databasePath = './database/guardian_link.db';
 
 // initialize bcrypt for hashing
 const bcrypt = require('bcrypt');
-const saltRounds = 10; // salt rounds used for hashing
-const defaultPassword = bcrypt.hashSync('changeme', saltRounds);
+const saltRounds = process.env.BCRYPT_SALT_ROUNDS; // salt rounds used for hashing
+const defaultPassword = bcrypt.hashSync(process.env.ADMIN_DEFAULT_PASS, saltRounds);
 
 
 // Open database, or create new one if doesn't exist

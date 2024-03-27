@@ -3,3 +3,5 @@ combined.log
 error.log
 database/guardian_link.db
 .env
+backend/security/cert.ket
+backend/security/cert.pem

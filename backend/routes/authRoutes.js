@@ -7,7 +7,17 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
 
     // initialize bcrypt for hashing
     const bcrypt = require('bcrypt');
-    const saltRounds = 10; // salt rounds used for hashing
+    const saltRounds = process.env.BCRYPT_SALT_ROUNDS; // salt rounds used for hashing
+
+    // initialize a Nodemailer transporter for sending password reset links
+    const nodemailer = require('nodemailer');
+    const transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE,
+        auth: {
+            user: process.env.EMAIL_ACCOUNT,
+            pass: process.env.EMAIL_ACCOUNT
+        }
+    });
 
     // register user to database
     router.post('/register', (req, res) => {
