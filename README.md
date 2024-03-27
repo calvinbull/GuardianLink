@@ -10,7 +10,7 @@ Website project to connect volunteers and non-profit organizations.
     ADMIN_DEFAULT_PASS=
     EMAIL_SERVICE=gmail
     EMAIL_ACCOUNT=
-    # generated app password from https://myaccount.google.com/apppasswords
+    **generated app password from https://myaccount.google.com/apppasswords**
     EMAIL_APP_PASSWORD=
     BCRYPT_SALT_ROUNDS=10
 3. Run server application from `GuardianLink/` folder with `npm start`.
