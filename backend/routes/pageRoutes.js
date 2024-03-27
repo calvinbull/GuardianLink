@@ -17,6 +17,11 @@ module.exports = function(db, logger, authorizationController, loggedOutControll
         res.render('pages/login', { pageTitle: 'Login', currentPage: 'login' });
     });
 
+    // forgot my password page
+    router.get('/forgot', loggedOutController, (req, res) => {
+        res.render('pages/forgot', { pageTitle: 'Forgot My Password', currentPage: 'forgot' });
+    });
+
     // registration
     router.get('/register', loggedOutController, (req, res) => {
         res.render('pages/register', { pageTitle: 'Registration', currentPage: 'register' });

@@ -1,0 +1,29 @@
+<!-- forgot my password page -->
+
+<!-- add first part of layout template -->
+<%- include('../layouts/layoutFirst.ejs') %>
+
+<!-- page body -->
+<h1>Forgotten Password Reset Form</h1>
+<br>
+<p>Fill this form with the username and email associated with your account. If they match our records, an email will be sent to you with further instructions.</p>
+<br>
+
+<form id="forgottenPassword">
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Reset Password</button>
+</form>
+
+<script src="/js/forgot.js"></script>
+
+<!-- add last part of layout template -->
+<%- include('../layouts/layoutLast.ejs') %>
