@@ -7,15 +7,32 @@
 <h1>Connections</h1>
 <br>
 
-    <!-- Container for account cards -->
-    <div id="accountCardsContainer">
-        <!-- Iterate over accounts data to display account cards -->
-        <% accounts.forEach(function(account) { %>
+<!-- Bootstrap search field, currently set up to search for names -->
+<div class="container-fluid">
+    <form class="d-flex" role="search">
+        <!-- search field -->
+        <input class="form-control me-2" type="search" id="searchInput" placeholder="Filter results by..." aria-label="Search">
+        <!-- filter selection -->
+        <select class="form-select" id="filterSelection">
+            <option value="name">Name</option>
+            <option value="username">Username</option>
+            <option value="email">Email</option>
+        </select>
+    </form>
+</div>
+<br>
 
-            <%- include('../partials/accountCard.ejs', { account: account }) %>
 
-        <% }); %>
-    </div>
+<!-- Container for account cards -->
+<div id="accountCardsContainer">
+    <!-- Iterate over accounts data to display account cards -->
+    <% accounts.forEach(function(account) { %>
+
+        <%- include('../partials/accountCard.ejs', { account: account }) %>
+
+    <% }); %>
+</div>
+
 
 <script src="/js/connections.js"></script>
 

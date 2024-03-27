@@ -1,17 +1,18 @@
 <!-- account summary card, changes displayed fields based on user account type -->
 <!-- edit / message buttons conditional on which page the card is being loaded in to -->
 
-<div class="col-md-12" >
+<div class="col-md-12 account-card" >
     <div class="card mb-3">
         <div class="card-body">
 
             <!-- name is seperate to avoid being collapsed on connections page -->
             <div class="row align-items-center">
                 <div class="col-sm-3 text-secondary">
-                    <h5 class="mb-0"><%= propertyLabels['name'] %></h6>
+                    <h5 class="mb-0"><%= propertyLabels['name'] %></h5>
                 </div>
                 <div class="col">
-                    <h5 class="mb-0"><%= account['name'] %></h5>
+                    <!-- add `account-name` class to enable filtering by name -->
+                    <h5 class="mb-0 account-name"><%= account['name'] %></h5>
                 </div>
 
                 <!-- edit button for my account page only -->
@@ -44,8 +45,9 @@
                             <div class="col-sm-3 text-secondary">
                                 <h6 class="mb-0"><%= propertyLabels[property] %></h6>
                             </div>
+                            <!-- dynamically add `account-X` class to enable future filtering -->
                             <div class="col">
-                                <%= account[property] %>
+                                <h6 class="mb-0 account-<%= property %>"><%= account[property] %></h6>
                             </div>
                         </div>
                         <hr>
