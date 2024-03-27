@@ -102,12 +102,9 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
     router.post('/forgotPassword', (req, res) => {
         // pull account info from request
         const { username, email } = req.body;
-        logger.info(username); 
-        logger.info(email);   
 
         // check if unique username / email pair exist
         db.get('SELECT email FROM users WHERE username = ?', [username], (err, dbEmail) => {
-            logger.info(dbEmail);
             if (err) {
                 console.error(err.message);
                 logger.error('Error validating password reset request: ', err.message);
@@ -118,7 +115,6 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
 
                     // TODO: generate reset email here
                     res.json({ message: 'Password reset email sent. Please check your email.' });
-
                 } else {
                     //request is not valid
                     logger.info('Password reset request is unauthorized.');
