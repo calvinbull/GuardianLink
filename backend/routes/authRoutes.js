@@ -66,7 +66,7 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
                 [accountType, name, username, email, 
                     bcrypt.hashSync(password, saltRounds),
                     availability, backgroundCheck, isCurrentlyAvailable, 
-                    linkedin, concerns, missionStatement, userId], (err) => {
+                    linkedin, concerns, missionStatement, userID], (err) => {
             if (err) {
                 console.error(err.message);
                 logger.error('Error updating user account: ', err.message);
@@ -135,9 +135,6 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
                         [username, resetToken, tokenExpiry], (err) => {
                         if (err) {
                             logger.error('Error storing password reset token: ', err);
-                            logger.error(username);
-                            logger.error(resetToken);
-                            logger.error(tokenExpiry);
                             
                         } else {
                             // token stored successfully, proceed with email.
@@ -146,7 +143,7 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
                                 from: process.env.EMAIL_ACCOUNT,
                                 to: email,
                                 subject: `Password Reset Request for ${username}`,
-                                text: `Click the following link to reset your password:\nhttp://${process.env.SERVER_HOST}/resetPassword?token=${resetToken}`
+                                text: `Click the following link to reset your password:\nhttps://${process.env.SERVER_HOST}/resetPassword?token=${resetToken}`
                             };
 
                             // send email via nodemailer
@@ -175,9 +172,41 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
 
     //password reset
     router.post('/newPassword', (req, res) => {
-        // pull userID from session
-        const userID = req.user.userID;
+        // pull token and new password from session
+        const { token, password } = req.body;
+        if (!token || !password) {
+            return res.status(400).json({ message: 'Token and password are required.' });
+        }
 
+        // verify if token exists and is still valid
+        const currentTime = Date.now();
+        db.get('SELECT username,expiry FROM password_reset_tokens WHERE token = ?', [token], (err, row) => {
+            if (err) {
+                logger.error('Error during token lookup: ', err);
+                res.json({ message: 'Error during token lookup.' });        
+            } else { 
+                if (row.expiry >= currentTime) {
+                    // token is still valid, proceed to update password.
+                    db.run(`UPDATE users SET password = ? WHERE username = ?`, 
+                            [ bcrypt.hashSync(password, saltRounds), row.username ], (err) => {
+                        if (err) {
+                            // password not updated in DB
+                            console.error(err.message);
+                            logger.error('Error updating user password: ', err.message);
+                            res.json({ message: 'Error updating user password.' });
+                        } else {
+                            // new password is set
+                            logger.info('User password updated successfully');
+                            res.json({ message: 'User password updated successfully.' });
+                        }
+                    });
+                } else {
+                    // token is expired
+                    logger.info('Password reset request is expired.');
+                    res.json({ message: 'Password reset request is expired.' });
+                }
+            }
+        });
     });
 
     // admin password reset

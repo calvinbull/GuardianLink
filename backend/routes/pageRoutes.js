@@ -73,6 +73,12 @@ module.exports = function(db, logger, authorizationController, loggedOutControll
         res.render('pages/messages', { pageTitle: 'My Messages', currentPage: 'messages', user:req.user, propertyLabels: propertyLabels });
     });
 
+    // resetPassword page
+    router.get('/resetPassword', (req, res) => {
+        // token should be sent in the get request
+        res.render('pages/resetPassword', { pageTitle: 'My Messages', currentPage: 'resetPassword', token:req.token });
+    });
+
     // Export the routes
     return router;
 
