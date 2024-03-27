@@ -86,6 +86,29 @@ db.serialize(() => {
             }
         }
     });
+
+    // create password reset token table if doesn't exist
+    db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, 'password_reset_tokens', (err, row) => {
+        if (err) {
+            logger.error('Error checking table existence: ', err.message);
+            return;
+        }
+        if (!row) {
+            try {
+                db.run(`CREATE TABLE IF NOT EXISTS password_reset_tokens (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT NOT NULL,
+                    token TEXT NOT NULL,
+                    expiry INTEGER NOT NULL,
+                    FOREIGN KEY (username) REFERENCES users(username))`);
+                logger.info('password_reset_tokens table created successfully.'); 
+            } catch (err) {
+                logger.error('Error creating password_reset_tokens table: ', err.message);
+            }
+        }
+    });
+
+
 });
 
 // export database connection to app
