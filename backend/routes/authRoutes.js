@@ -1,6 +1,6 @@
 
 // wrap all exports in a function in order to use the initial db connection reference
-module.exports = function(db, logger, passport) {
+module.exports = function(db, logger, passport, authorizationController, adminController) {
     // POST routes
     const express = require('express');
     const router = express.Router();
@@ -30,6 +30,88 @@ module.exports = function(db, logger, passport) {
             }
         });
     });
+
+    // update user account information
+    router.post('/update', authorizationController, (req, res) => {
+        const { accountType, name, username, email, password, 
+            availability, backgroundCheck, isCurrentlyAvailable, 
+            linkedin, concerns, missionStatement } = req.body;
+        // pull userID from session
+        const userID = req.user.userID;
+
+        db.run(`UPDATE users SET 
+                accountType = ?, 
+                name = ?, 
+                username = ?, 
+                email = ?, 
+                password = ?, 
+                availability = ?, 
+                backgroundCheck = ?, 
+                isCurrentlyAvailable = ?, 
+                linkedin = ?, 
+                concerns = ?, 
+                missionStatement = ?
+                WHERE id = ?`, 
+                [accountType, name, username, email, 
+                    bcrypt.hashSync(password, saltRounds),
+                    availability, backgroundCheck, isCurrentlyAvailable, 
+                    linkedin, concerns, missionStatement, userId], (err) => {
+            if (err) {
+                console.error(err.message);
+                logger.error('Error updating user account: ', err.message);
+            } else {
+                logger.info('User account updated successfully');
+            }
+        });
+    });
+
+
+    // delete account from user's own account page
+    router.post('/selfDelete', authorizationController, (req, res) => {
+        // pull userID from session
+        const userID = req.user.userID;
+
+        // Delete user from the database
+        db.run(`DELETE FROM users WHERE id = ?`, [userID], (err) => {
+            if (err) {
+                console.error(err.message);
+                logger.error('Error deleting user: ', err.message);
+            } else {
+                logger.info('User deleted successfully');
+            }
+        });
+    });
+
+    // admin route to delete any given account by userID
+    router.post('/adminDelete', adminController, (req, res) => {
+        // pull userID from admin's request body
+        const userID = req.body.userToDelete;
+
+        // Delete user from the database
+        db.run(`DELETE FROM users WHERE id = ?`, [userID], (err) => {
+            if (err) {
+                console.error(err.message);
+                logger.error('Error deleting user: ', err.message);
+            } else {
+                logger.info('User deleted successfully');
+            }
+        });
+    });
+
+    //password reset
+    router.post('/newPassword', (req, res) => {
+        // pull userID from session
+        const userID = req.user.userID;
+
+    });
+
+    // admin password reset
+    router.post('/adminPassword', adminController, (req, res) => {
+        // pull userID from admin's request body
+        const userID = req.body.userToReset;
+
+    });
+
 
     // login
     router.post('/login', passport.authenticate('local', {
