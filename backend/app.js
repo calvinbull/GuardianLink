@@ -18,7 +18,7 @@ const propertyLabels = require('../public/js/propertyLabels');
 // constants & .env file import
 require('dotenv').config();
 const HOST = process.env.SERVER_HOST;
-const PORT = process.env.SERVER_PORT;
+const PORT = Number(process.env.SERVER_PORT);
 const SERVER_KEY = path.join(__dirname, 'security', 'cert.key');
 const SERVER_CERTIFICATE = path.join(__dirname, 'security', 'cert.pem');
 const crypto = require('crypto');

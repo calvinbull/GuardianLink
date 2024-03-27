@@ -7,7 +7,7 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
 
     // initialize bcrypt for hashing
     const bcrypt = require('bcrypt');
-    const saltRounds = process.env.BCRYPT_SALT_ROUNDS; // salt rounds used for hashing
+    const saltRounds = Number(process.env.BCRYPT_SALT_ROUNDS); // salt rounds used for hashing
 
     // initialize a Nodemailer transporter for sending password reset links
     const nodemailer = require('nodemailer');
