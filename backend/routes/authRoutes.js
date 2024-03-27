@@ -110,104 +110,12 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
     });
 
     // forgotten password initial request
-    router.post('/forgotPassword', (req, res) => {
-        // pull account info from request
-        const { username, email } = req.body;
+    const { forgotPasswordController } = require('../controllers/forgotPasswordController');
+    router.post('/forgotPassword', forgotPasswordController);
 
-        // check if unique username / email pair exist
-        db.get('SELECT email FROM users WHERE username = ?', [username], (err, dbEmail) => {
-            if (err) {
-                console.error(err.message);
-                logger.error('Error validating password reset request: ', err.message);
-            } else {
-                if (dbEmail.email == email) {
-                    // request is valid
-                    logger.info('Valid password reset initiated.');
-
-                    // generate reset email
-                    // generate a password reset token for email
-                    const resetToken = passwordResetToken(username);
-                    // generate expiry time, 10 minutes from now (miliseconds)
-                    const tokenExpiry = Date.now() + (10 * 60 * 1000);
-
-                    // add valid token to password_reset_tokens database for later confirmation
-                    db.run('INSERT INTO password_reset_tokens (username, token, expiry) VALUES (?, ?, ?)',
-                        [username, resetToken, tokenExpiry], (err) => {
-                        if (err) {
-                            logger.error('Error storing password reset token: ', err);
-                            
-                        } else {
-                            // token stored successfully, proceed with email.
-                            // specifiy email options
-                            const mailOptions = {
-                                from: process.env.EMAIL_ACCOUNT,
-                                to: email,
-                                subject: `Password Reset Request for ${username}`,
-                                text: `Click the following link to reset your password:\nhttps://${process.env.SERVER_HOST}/resetPassword?token=${resetToken}`
-                            };
-
-                            // send email via nodemailer
-                            transporter.sendMail(mailOptions, (err, info) => {
-                                if (err) {
-                                    logger.error('Error sending email:', err);
-                                    res.status(500).json({ err: 'Error sending email' });
-                                } else {
-                                    logger.info('Password reset email sent.');
-                                    // browser alert of success
-                                    res.json({ message: 'Password reset email sent. Please check your email.' });
-                                }
-                            });
-                        }
-                    });
-                    
-                } else {
-                    //request is not valid
-                    logger.info('Password reset request is unauthorized.');
-                    res.json({ message: 'Password reset request is unauthorized.' });
-                }
-            }
-        });
-
-    });
-
-    //password reset
-    router.post('/newPassword', (req, res) => {
-        // pull token and new password from session
-        const { token, password } = req.body;
-        if (!token || !password) {
-            return res.status(400).json({ message: 'Token and password are required.' });
-        }
-
-        // verify if token exists and is still valid
-        const currentTime = Date.now();
-        db.get('SELECT username,expiry FROM password_reset_tokens WHERE token = ?', [token], (err, row) => {
-            if (err) {
-                logger.error('Error during token lookup: ', err);
-                res.json({ message: 'Error during token lookup.' });        
-            } else { 
-                if (row.expiry >= currentTime) {
-                    // token is still valid, proceed to update password.
-                    db.run(`UPDATE users SET password = ? WHERE username = ?`, 
-                            [ bcrypt.hashSync(password, saltRounds), row.username ], (err) => {
-                        if (err) {
-                            // password not updated in DB
-                            console.error(err.message);
-                            logger.error('Error updating user password: ', err.message);
-                            res.json({ message: 'Error updating user password.' });
-                        } else {
-                            // new password is set
-                            logger.info('User password updated successfully');
-                            res.json({ message: 'User password updated successfully.' });
-                        }
-                    });
-                } else {
-                    // token is expired
-                    logger.info('Password reset request is expired.');
-                    res.json({ message: 'Password reset request is expired.' });
-                }
-            }
-        });
-    });
+    // password reset
+    const { newPasswordController } = require('../controllers/newPasswordController');
+    router.post('/newPassword', newPasswordController);
 
     // admin password reset
     router.post('/adminPassword', adminController, (req, res) => {

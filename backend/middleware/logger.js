@@ -8,8 +8,7 @@ try {
     fs.unlinkSync('error.log');
     fs.unlinkSync('combined.log');
 } catch (err) {
-    // Handle file deletion error if log files don't exist
-    console.error('Error deleting log files:', err);
+    // do nothing, files likely didn't exist
 }
 
 const logger = winston.createLogger({
