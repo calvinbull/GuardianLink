@@ -11,6 +11,8 @@ const path = require('path');
 const logger = require('./middleware/logger');
 const helmet = require('helmet');
 const sslRedirect = require('express-sslify');
+const typeahead = require('typeahead-standalone');
+require('typeahead-standalone/dist/basic.css');
 
 // import propertLabels for human readability
 const propertyLabels = require('../public/js/propertyLabels');
