@@ -31,6 +31,15 @@ const db = require('../database/DBConnect');
 const app = express();
 // enable helmet to improve https header security and help prevent XSS and code injection threats
 app.use(helmet());
+// permit loading of bootstrap JS files
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https://code.jquery.com", "https://cdn.jsdelivr.net"],
+        },
+    })
+);
 // configure express-session
 app.use(express.json());
 app.use(session({
