@@ -40,7 +40,7 @@
             <% } %>
             <hr>
                 <% Object.keys(account).forEach(function(property)  { %>
-                    <% if((account[property] !== null) && propertyLabels[property] && property != 'name' && property != 'name') { %>
+                    <% if((account[property] !== null) && propertyLabels[property] && property != 'name') { %>
                         <div class="row">
                             <div class="col-sm-3 text-secondary">
                                 <h6 class="mb-0"><%= propertyLabels[property] %></h6>
