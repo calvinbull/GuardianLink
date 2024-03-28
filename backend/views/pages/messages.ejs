@@ -3,11 +3,88 @@
 <!-- add first part of layout template -->
 <%- include('../layouts/layoutFirst.ejs') %>
 
+<!-- load existing users from res render -->
+<script>
+    var existingUsers = <%- JSON.stringify(existingUsers) %>;
+</script>
+
 <!-- page body -->
 <h1>My Messages</h1>
 <br>
 
+<!-- html to display messages here -->
 
+<div class="container">
+    <div class="row">
+
+        <!-- section needs work! user selection currently -->
+
+        <% if (existingConversations.length != 0) { %>
+        <!-- Conversation details -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Conversation with selected user</div>
+                <div class="card-body">
+                    <div class="list-group" id="list-tab" role="tablist">
+                        <% existingConversations.forEach(function(conversation, index) { %>
+                            <a class="list-group-item list-group-item-action <%= index === 0 ? 'active' : '' %>" id="list-<%= conversation.userID %>-list" data-toggle="list" href="#list-<%= conversation.userID %>" role="tab" aria-controls="<%= conversation.userID %>"><%= conversation.name %></a>
+                        <% }) %>
+                    </div>
+                    <div class="tab-content" id="nav-tabContent">
+                        <% existingConversations.forEach(function(conversation, index) { %>
+                            <div class="tab-pane fade <%= index === 0 ? 'show active' : '' %>" id="list-<%= conversation.userID %>" role="tabpanel" aria-labelledby="list-<%= conversation.userID %>-list">
+
+                            <!-- format reminder, each conversation is: -->
+                            <!-- { userID: account.userID, name: account.name, messages: [] } -->
+                            <!-- with each item of messages an entire row from the db -->
+                            <!-- {id, senderID, receiverID, time, message} -->
+                            <% conversation.messages.forEach(function(message) { %>
+                                <div class="message">
+                                    <p><strong><%= message.senderID === user.userID ? 'You' : conversation.name %>:</strong> <%= message.message %></p>
+                                    <p><small><%= new Date(message.time).toLocaleString() %></small></p>
+                                </div>
+
+                            <% }) %>
+
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        
+
+        <!-- if no conversations exist, only a new message option is displayed -->
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Message New User</div>
+                <div class="card-body">
+                    <form id="sendMessage">
+                        <div class="form-group">
+                            <label for="destinationUser">Send a message to:</label>
+                            <!-- select from existing usernames -->
+                            <input type="text" class="form-control" id="destinationUser" placeholder="Start typing" autocomplete="off" list="usernames" required>
+                            <datalist id="usernames">
+                                <!-- autofilled by js script -->
+                            </datalist>
+                        </div>
+                        <div class="form-group">
+                            <label for="messageText">Message Text:</label>
+                            <textarea class="form-control" id="messageText" rows="3" placeholder="Type a message..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+</script>
 
 <script src="/js/messages.js"></script>
 

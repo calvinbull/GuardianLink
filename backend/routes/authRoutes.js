@@ -30,6 +30,10 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
     const selfDeleteController = require('../controllers/selfDeleteController') (db, logger);
     router.post('/selfDelete', authorizationController, selfDeleteController); 
 
+    // send a new message
+    const sendMessageController = require('../controllers/sendMessageController') (db, logger);
+    router.post('/sendMessage', authorizationController, sendMessageController); 
+
     // admin route to delete any given account by userID
     const adminDeleteController = require('../controllers/adminDeleteController') (db, logger);
     router.post('/adminDelete', adminController, adminDeleteController);
