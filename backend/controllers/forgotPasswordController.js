@@ -1,7 +1,9 @@
- // controller for /auth/forgotPassword route
- 
- // forgotten password initial request
- exports.forgotPasswordController = (req, res) => {
+// controller for /auth/forgotPassword route
+
+// forgotten password initial request
+
+function forgotPasswordController(db, logger, passwordResetToken, transporter) {
+    return function(req, res) {
     // pull account info from request
     const { username, email } = req.body;
 
@@ -59,4 +61,7 @@
         }
     });
 
-};
+};}
+
+// export controller
+module.exports = forgotPasswordController;

@@ -7,10 +7,8 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
 
     // initialize bcrypt for hashing
     const bcrypt = require('bcrypt');
-    const saltRounds = Number(process.env.BCRYPT_SALT_ROUNDS); // salt rounds used for hashing
 
     // initialize a Nodemailer transporter for sending password reset links
-
     const nodemailer = require('nodemailer');
     const transporter = nodemailer.createTransport({
         service: process.env.EMAIL_SERVICE,
@@ -21,109 +19,34 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
     });
 
     // register user to database
-    router.post('/register', (req, res) => {
-        const { accountType, name, username, email, password, 
-            availability, backgroundCheck, isCurrentlyAvailable, 
-            linkedin, concerns, missionStatement } = req.body;
+    const registerController = require('../controllers/registerController') (db, logger, bcrypt);
+    router.post('/register', registerController);
 
-        db.run(`INSERT INTO users (accountType, name, username, email, password, 
-                    availability, backgroundCheck, isCurrentlyAvailable, 
-                    linkedin, concerns, missionStatement) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
-                    [accountType, name, username, email, bcrypt.hashSync(password, saltRounds), 
-                        availability, backgroundCheck, isCurrentlyAvailable, 
-                        linkedin, concerns, missionStatement], (err) => {
-            if (err) {
-                console.error(err.message);
-                logger.error('Error registering user: ', err.message);
-            } else {
-                logger.info('User registered successfully');
-            }
-        });
-    });
-
-    // update user account information
-    router.post('/update', authorizationController, (req, res) => {
-        const { accountType, name, username, email, password, 
-            availability, backgroundCheck, isCurrentlyAvailable, 
-            linkedin, concerns, missionStatement } = req.body;
-        // pull userID from session
-        const userID = req.user.userID;
-
-        db.run(`UPDATE users SET 
-                accountType = ?, 
-                name = ?, 
-                username = ?, 
-                email = ?, 
-                password = ?, 
-                availability = ?, 
-                backgroundCheck = ?, 
-                isCurrentlyAvailable = ?, 
-                linkedin = ?, 
-                concerns = ?, 
-                missionStatement = ?
-                WHERE id = ?`, 
-                [accountType, name, username, email, 
-                    bcrypt.hashSync(password, saltRounds),
-                    availability, backgroundCheck, isCurrentlyAvailable, 
-                    linkedin, concerns, missionStatement, userID], (err) => {
-            if (err) {
-                console.error(err.message);
-                logger.error('Error updating user account: ', err.message);
-            } else {
-                logger.info('User account updated successfully');
-            }
-        });
-    });
-
+    // update user's own account information
+    const updateController = require('../controllers/updateController') (db, logger, bcrypt);
+    router.post('/update', authorizationController, updateController);
 
     // delete account from user's own account page
-    router.post('/selfDelete', authorizationController, (req, res) => {
-        // pull userID from session
-        const userID = req.user.userID;
-
-        // Delete user from the database
-        db.run(`DELETE FROM users WHERE id = ?`, [userID], (err) => {
-            if (err) {
-                console.error(err.message);
-                logger.error('Error deleting user: ', err.message);
-            } else {
-                logger.info('User deleted successfully');
-            }
-        });
-    });
+    const selfDeleteController = require('../controllers/selfDeleteController') (db, logger);
+    router.post('/selfDelete', authorizationController, selfDeleteController); 
 
     // admin route to delete any given account by userID
-    router.post('/adminDelete', adminController, (req, res) => {
-        // pull userID from admin's request body
-        const userID = req.body.userToDelete;
-
-        // Delete user from the database
-        db.run(`DELETE FROM users WHERE id = ?`, [userID], (err) => {
-            if (err) {
-                console.error(err.message);
-                logger.error('Error deleting user: ', err.message);
-            } else {
-                logger.info('User deleted successfully');
-            }
-        });
-    });
+    const adminDeleteController = require('../controllers/adminDeleteController') (db, logger);
+    router.post('/adminDelete', adminController, adminDeleteController);
 
     // forgotten password initial request
-    const { forgotPasswordController } = require('../controllers/forgotPasswordController');
+    const forgotPasswordController = require('../controllers/forgotPasswordController')(db, logger, passwordResetToken, transporter);
     router.post('/forgotPassword', forgotPasswordController);
 
     // password reset
-    const { newPasswordController } = require('../controllers/newPasswordController');
+    const newPasswordController = require('../controllers/newPasswordController');
     router.post('/newPassword', newPasswordController);
 
     // admin password reset
     router.post('/adminPassword', adminController, (req, res) => {
         // pull userID from admin's request body
         const userID = req.body.userToReset;
-
     });
-
 
     // login
     router.post('/login', passport.authenticate('local', {
