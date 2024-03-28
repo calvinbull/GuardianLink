@@ -37,7 +37,16 @@ module.exports = function(db, logger, authorizationController, loggedOutControll
         res.render('pages/account', { pageTitle: 'My Account', currentPage: 'account', account: req.user, propertyLabels: propertyLabels });
     });
 
+    // Edit my account page
+    router.get('/accountEdit', authorizationController, (req, res) => {
+        // authorizationController gatekeeps page to logged in users
+        res.render('pages/accountEdit', { pageTitle: 'Edit Account Information', currentPage: 'accountEdit', account: req.user, propertyLabels: propertyLabels });
+    });
+
     // Messages page
+    const messagesController = require('../controllers/messagesController') (db, logger, propertyLabels);
+    router.get('/messages', authorizationController, messagesController);
+    
     router.get('/messages', authorizationController, (req, res) => {
         // authorizationController gatekeeps page to logged in users
         res.render('pages/messages', { pageTitle: 'My Messages', currentPage: 'messages', user:req.user, propertyLabels: propertyLabels });

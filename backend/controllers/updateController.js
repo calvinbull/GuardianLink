@@ -1,29 +1,27 @@
 // update user's own account information
-function updateController(db, logger, bcrypt) {
+function updateController(db, logger) {
     return function(req, res) {
-        // route control logic here
 
-        const { accountType, name, username, email, password, 
-            availability, backgroundCheck, isCurrentlyAvailable, 
-            linkedin, concerns, missionStatement } = req.body;
+        // pull all relevant updates from req body, set any non-relevant properties to null
+        const { name= null, username= null, email= null,
+            availability= null, backgroundCheck= null, isCurrentlyAvailable= null, 
+            linkedin= null, concerns= null, missionStatement= null } = req.body;
+
         // pull userID from session
         const userID = req.user.userID;
 
         db.run(`UPDATE users SET 
-                accountType = ?, 
                 name = ?, 
                 username = ?, 
                 email = ?, 
-                password = ?, 
                 availability = ?, 
                 backgroundCheck = ?, 
                 isCurrentlyAvailable = ?, 
                 linkedin = ?, 
                 concerns = ?, 
                 missionStatement = ?
-                WHERE id = ?`, 
-                [accountType, name, username, email, 
-                    bcrypt.hashSync(password, Number(process.env.BCRYPT_SALT_ROUNDS)),
+                WHERE userID = ?`, 
+                [name, username, email,
                     availability, backgroundCheck, isCurrentlyAvailable, 
                     linkedin, concerns, missionStatement, userID], (err) => {
             if (err) {
@@ -31,6 +29,20 @@ function updateController(db, logger, bcrypt) {
                 logger.error('Error updating user account: ', err.message);
             } else {
                 logger.info('User account updated successfully');
+
+                // refresh session with new information
+                req.user.name = name;
+                req.user.username = username;
+                req.user.email = email;
+                req.user.availability = availability;
+                req.user.backgroundCheck = backgroundCheck;
+                req.user.isCurrentlyAvailable = isCurrentlyAvailable;
+                req.user.linkedin = linkedin;
+                req.user.concerns = concerns;
+                req.user.missionStatement = missionStatement;
+                
+                // redirect to account page
+                res.redirect('/account');
             }
         });
 

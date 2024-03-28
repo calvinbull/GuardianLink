@@ -35,6 +35,7 @@ function newPasswordController(db, logger) {
                     // token is expired
                     logger.info('Password reset request is expired.');
                     res.json({ message: 'Password reset request is expired.' });
+
                 }
             }
         });

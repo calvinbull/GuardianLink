@@ -23,8 +23,8 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
     router.post('/register', registerController);
 
     // update user's own account information
-    const updateController = require('../controllers/updateController') (db, logger, bcrypt);
-    router.post('/update', authorizationController, updateController);
+    const updateController = require('../controllers/updateController') (db, logger);
+    router.post('/accountUpdate', authorizationController, updateController);
 
     // delete account from user's own account page
     const selfDeleteController = require('../controllers/selfDeleteController') (db, logger);

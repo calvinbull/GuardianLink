@@ -1,0 +1,53 @@
+<!-- account summary card, changes displayed fields based on user account type -->
+<!-- used to edit account information or delete account -->
+
+<div class="col-md-12" >
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <form id="updateAccountInfo">
+
+                <% Object.keys(account).forEach(function(property)  { %>
+                <% if((account[property] !== null) && propertyLabels[property] && property != 'userID' && property != 'accountType' ) { %>
+                <div class="form-group row align-items-center">
+                    
+                    <div class="col-sm-3 text-secondary" >
+                        <%= propertyLabels[property] %>:
+                    </div>
+
+                    <div class="col-sm-3 text-primary">
+                        <%= account[property] %>
+                    </div>
+
+                    <div class="col ">
+                        <input type="text" class="form-control" id="<%= property %>" name="<%= property %>" placeholder="<%= account[property] %>" value="<%= account[property] %>">
+                    </div>
+
+                </div>
+                <hr>
+                <% } %>
+                <% }); %>
+
+                <div class="row">
+
+                    <div class="col text-left">
+                        <!-- update button -->
+                        <button type="submit" class="btn btn-success" id="editAccount">Update Account</button>
+                    </div>
+
+                    <div class="col text-center">
+                        <!-- update password button -->
+                        <button class="btn btn-info" type="button" id="editPassword">Update Password</button>
+                    </div>
+
+                    <div class="col text-right">
+                        <!-- delete button -->
+                        <button class="btn btn-danger" type="button" id="deleteAccount">Delete Account</button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
