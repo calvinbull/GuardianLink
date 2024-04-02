@@ -24,7 +24,7 @@ function messagesController(db, logger, propertyLabels) {
             var existingConversations = [];
 
             // build sqlite3 query to return a list of userIDs that have interacted with the logged in user
-            var sqlQuery = `SELECT userID, MAX(name) as name
+            var sqlQuery = `SELECT userID, MAX(name) as name, username
             FROM users
             WHERE userID IN (
                 SELECT senderID AS userID
@@ -62,7 +62,7 @@ function messagesController(db, logger, propertyLabels) {
 
                     // add object containing each unique userID and name to the existing conversation list
                     // messages object is currently empty, but will be populated with message DB entries in next step
-                    existingConversations.push( { userID: account.userID, name: account.name, messages: [] } );
+                    existingConversations.push( { userID: account.userID, name: account.name, username:account.username, messages: [] } );
                 });
 
 

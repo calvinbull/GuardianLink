@@ -6,7 +6,7 @@
 <!-- load existing users from res render -->
 <script>
     var existingUsers = <%- JSON.stringify(existingUsers) %>;
-    // note the existingConversation object is formatted: [{ userID: account.userID, name: account.name, messages: [] }]
+    // note the existingConversation object is formatted: [{ userID, name, username, messages[] }]
     var existingConvs = <%- JSON.stringify(existingConversations) %>;
 </script>
 
@@ -19,12 +19,12 @@
 <div class="container">
     <% if (existingConversations.length != 0) { %>
     <!-- Conversation details -->
-    <div class="row">
+    <div class="row align-items-stretch">
 
-        <div class="col-sm-3">
-            <div class="card">
+        <div class="col-sm-3 d-flex">
+            <div class="card flex-grow-1">
                 <div class="card-header">Conversations</div>
-                <div class="card-body">
+                <div class="card-body scrollable-conversations">
 
                     <div class="list-group" id="list-tab" role="tablist">
                         <% existingConversations.forEach(function(conversation, index) { %>
@@ -36,10 +36,10 @@
             </div>
         </div>
 
-        <div class="col">
-            <div class="card">
+        <div class="col d-flex">
+            <div class="card flex-grow-1">
                 <div class="card-header" id="conversation-header"></div>
-                <div class="card-body">
+                <div class="card-body scrollable-messages">
 
                     <div class="tab-content" id="nav-tabContent">
                         <% existingConversations.forEach(function(conversation, index) { %>
@@ -47,18 +47,23 @@
                             <div class="tab-pane fade <%= index === 0 ? 'show active' : '' %>" id="list-<%= conversation.userID %>" role="tabpanel" aria-labelledby="list-<%= conversation.userID %>-list">
 
                             <!-- format reminder, each conversation is: -->
-                            <!-- { userID: account.userID, name: account.name, messages: [] } -->
+                            <!-- { userID, name, username, messages[] } -->
                             <!-- with each item of messages an entire row from the db -->
                             <!-- {id, senderID, receiverID, time, message} -->
                             <% conversation.messages.forEach(function(message) { %>
                                 <div class="row">
+                                    <div class="col-sm-2 names">
+                                        <p><strong><%= message.senderID === user.userID ? 'You' : conversation.name %>:</strong></p>
+                                    </div>
+
                                     <div class="col message">
-                                        <p><strong><%= message.senderID === user.userID ? 'You' : conversation.name %>:</strong> <%= message.message %></p>
+                                        <p><%= message.message %></p>
                                     </div>
 
                                     <div class="col-sm-4 text-right">
                                         <p><small><%= new Date(message.time).toLocaleString() %></small></p>
                                     </div>
+                                    
                                 </div>
 
                             <% }) %>
@@ -76,28 +81,40 @@
     <br>
     <% } %>    
 
-    <div class="row">
+    <div class="row align-items-center">
         <!-- if no conversations exist, only a new message option is displayed -->
         <div class="col">
             <div class="card">
-                <div class="card-header">Message New User</div>
-                <div class="card-body">
-                    <form id="sendMessage">
-                        <div class="form-group">
-                            <label for="destinationUser">Send a message to:</label>
-                            <!-- select from existing usernames -->
-                            <input type="text" class="form-control" id="destinationUser" placeholder="Start typing" autocomplete="off" list="usernames" required>
-                            <datalist id="usernames">
-                                <!-- autofilled by js script -->
-                            </datalist>
+                <form id="sendMessage">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+
+                            <div class="col form-group no-margin">
+                                Send a message to:
+                            </div>
+
+                            <div class="col form-group no-margin">
+                                <!-- select from existing usernames -->
+                                <input type="text" class="form-control" id="destinationUser" placeholder="Start typing" autocomplete="off" list="usernames" required>
+                                <datalist id="usernames">
+                                    <!-- autofilled by js script -->
+                                </datalist>
+                            </div>
+
+                            <div class="col form-group text-right no-margin">
+                                <button type="submit" class="btn btn-primary">Send Message</button>
+                            </div>
+
                         </div>
+                    </div>
+
+                    <div class="card-body">
                         <div class="form-group">
-                            <label for="messageText">Message Text:</label>
                             <textarea class="form-control" id="messageText" rows="3" placeholder="Type a message..." required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
-                </div>
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>

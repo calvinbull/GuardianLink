@@ -25,4 +25,24 @@ main {
     background-color: rgb(174, 224, 255);
 }
 
+/* option to remove margin when desired from cards, etc */
+.no-margin {
+    margin-bottom: 0 !important;
+}
 
+/* added scrollable window feature for when messages are too long */
+/* default should be 'scrolled down' via JS */
+.scrollable-messages {
+    min-height: 40vh;
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
+/* added scrollable window feature for when conversation list is too long */
+/* seperate from messages in order to have varied JS listeners */
+/* default should be 'scrolled up' via JS */
+.scrollable-conversations {
+    min-height: 40vh;
+    max-height: 40vh;
+    overflow-y: auto;
+}

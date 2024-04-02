@@ -14,14 +14,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // try to auto-populate default conversation header
     try {
-        // note the existingConvs format: [{ userID: account.userID, name: account.name, messages: [] }]
+        // note the existingConvs format: [{ userID, name, username, messages[] }]
 
         // get user's name in the first list item
         var firstUser = existingConvs[0].name;
-        console.log(existingConvs);
         // update the conversation header
         document.getElementById('conversation-header').innerText = firstUser;
 
+        // get username from first list item
+        var firstUsername = existingConvs[0].username;
+        // pre-populate destinationUser field
+        document.getElementById('destinationUser').value = firstUsername;
+
+        // 'scroll down' messages by default in order to show the latest message
+        var scrollableMessages = document.querySelector('.scrollable-messages');
+        scrollableMessages.scrollTop = scrollableMessages.scrollHeight;
 
     } catch (err) {
         console.log("Error populating conversation header.");
@@ -79,7 +86,28 @@ document.addEventListener("DOMContentLoaded", function() {
             // update the conversation header
             document.getElementById('conversation-header').innerText = userName;
 
+            // get userID
+            // element id format: id="list-<%= conversation.userID %>-list"
+            var convID = conversation.getAttribute('id').split('-')[1];
+
+            // convert ID to username by matching against existingConvs list
+            var convUsername = null;
+            existingConvs.forEach(function(conv) {
+                if (convID == conv.userID) { convUsername = conv.username; }
+            })
+
+            // populate destinationUser field
+            document.getElementById('destinationUser').value = convUsername;
+
+
+            // 'scroll down' the messages window to show latest
+            // need a better solution to avoid magic number
+            setTimeout(function() {
+                var scrollableMessages = document.querySelector('.scrollable-messages');
+                scrollableMessages.scrollTop = scrollableMessages.scrollHeight;
+            }, 200);
 
         });
     });
 });
+
