@@ -6,6 +6,8 @@
 <!-- load existing users from res render -->
 <script>
     var existingUsers = <%- JSON.stringify(existingUsers) %>;
+    // note the existingConversation object is formatted: [{ userID: account.userID, name: account.name, messages: [] }]
+    var existingConvs = <%- JSON.stringify(existingConversations) %>;
 </script>
 
 <!-- page body -->
@@ -15,23 +17,33 @@
 <!-- html to display messages here -->
 
 <div class="container">
+    <% if (existingConversations.length != 0) { %>
+    <!-- Conversation details -->
     <div class="row">
 
-        <!-- section needs work! user selection currently -->
-
-        <% if (existingConversations.length != 0) { %>
-        <!-- Conversation details -->
-        <div class="col">
+        <div class="col-sm-3">
             <div class="card">
-                <div class="card-header">Conversation with selected user</div>
+                <div class="card-header">Conversations</div>
                 <div class="card-body">
+
                     <div class="list-group" id="list-tab" role="tablist">
                         <% existingConversations.forEach(function(conversation, index) { %>
                             <a class="list-group-item list-group-item-action <%= index === 0 ? 'active' : '' %>" id="list-<%= conversation.userID %>-list" data-toggle="list" href="#list-<%= conversation.userID %>" role="tab" aria-controls="<%= conversation.userID %>"><%= conversation.name %></a>
                         <% }) %>
                     </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <div class="card-header" id="conversation-header"></div>
+                <div class="card-body">
+
                     <div class="tab-content" id="nav-tabContent">
                         <% existingConversations.forEach(function(conversation, index) { %>
+                            
                             <div class="tab-pane fade <%= index === 0 ? 'show active' : '' %>" id="list-<%= conversation.userID %>" role="tabpanel" aria-labelledby="list-<%= conversation.userID %>-list">
 
                             <!-- format reminder, each conversation is: -->
@@ -39,22 +51,32 @@
                             <!-- with each item of messages an entire row from the db -->
                             <!-- {id, senderID, receiverID, time, message} -->
                             <% conversation.messages.forEach(function(message) { %>
-                                <div class="message">
-                                    <p><strong><%= message.senderID === user.userID ? 'You' : conversation.name %>:</strong> <%= message.message %></p>
-                                    <p><small><%= new Date(message.time).toLocaleString() %></small></p>
+                                <div class="row">
+                                    <div class="col message">
+                                        <p><strong><%= message.senderID === user.userID ? 'You' : conversation.name %>:</strong> <%= message.message %></p>
+                                    </div>
+
+                                    <div class="col-sm-4 text-right">
+                                        <p><small><%= new Date(message.time).toLocaleString() %></small></p>
+                                    </div>
                                 </div>
 
                             <% }) %>
 
                             </div>
                         <% }) %>
+
                     </div>
+
                 </div>
             </div>
         </div>
-        <% } %>
-        
 
+    </div>
+    <br>
+    <% } %>    
+
+    <div class="row">
         <!-- if no conversations exist, only a new message option is displayed -->
         <div class="col">
             <div class="card">
@@ -78,8 +100,9 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+
 </div>
 
 <script>
