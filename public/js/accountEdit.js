@@ -49,35 +49,6 @@ document.getElementById('updateAccountInfo').addEventListener('submit', function
 
 });
 
-// update password button
-document.getElementById('editPassword').addEventListener('submit', function(event) {
-    // Prevent default form submission behavior
-    event.preventDefault();
-
-    // generate user account update object
-    const accountUpdate = JSON.stringify(buildAccountUpdate());
-
-    fetch('/auth/accountUpdate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: accountUpdate
-
-    }).then(response => {
-        // POST login logic returns a redirect request, this code is to follow it
-        if (response.redirected) {
-            window.location.href = response.url;
-        } else {
-            console.log('Error updating user information.');
-        }
-
-    }).catch(err => {
-        console.log('Error updating user information.');
-    });
-
-});
-
 // delete account button
 document.getElementById('deleteAccount').addEventListener('submit', function(event) {
     // Prevent default form submission behavior
