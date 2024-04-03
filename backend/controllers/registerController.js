@@ -20,6 +20,8 @@ function registerController(db, logger, bcrypt) {
                 logger.error('Error registering user: ', err.message);
             } else {
                 logger.info('User registered successfully');
+                // redirect to login page
+                res.redirect('/login');
             }
         });
 
