@@ -7,13 +7,20 @@ function selfDeleteController(db, logger) {
         const userID = req.user.userID;
 
         // Delete user from the database
-        db.run(`DELETE FROM users WHERE id = ?`, [userID], (err) => {
+        db.run(`DELETE FROM users WHERE userID = ?`, [userID], (err) => {
             if (err) {
                 console.error(err.message);
                 logger.error('Error deleting user: ', err.message);
-            } else {
-                logger.info('User deleted successfully');
             }
+
+            // no errors, user was deleted
+            logger.info('User deleted successfully.');
+
+            // logout
+            req.logout(function(err) {
+                if (err) { return next(err); }
+                res.redirect('/');
+            });
         });
     }
 }

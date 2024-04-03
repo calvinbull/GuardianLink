@@ -50,30 +50,33 @@ document.getElementById('updateAccountInfo').addEventListener('submit', function
 });
 
 // delete account button
-document.getElementById('deleteAccount').addEventListener('submit', function(event) {
+document.getElementById('deleteAccount').addEventListener('click', function(event) {
     // Prevent default form submission behavior
     event.preventDefault();
 
-    // generate user account update object
-    const accountUpdate = JSON.stringify(buildAccountUpdate());
+    // confirm user wishes to delete their account with a popup
+    if (confirm("Are you sure you want to delete your account?")) {
+        // user confirms that they want to delete their account
 
-    fetch('/auth/accountUpdate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: accountUpdate
-
-    }).then(response => {
-        // POST login logic returns a redirect request, this code is to follow it
-        if (response.redirected) {
-            window.location.href = response.url;
-        } else {
-            console.log('Error updating user information.');
-        }
-
-    }).catch(err => {
-        console.log('Error updating user information.');
-    });
+        // make post request to `/auth/selfDelete`
+        fetch('/auth/selfDelete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(() => {
+            // user is deleted, now log out
+           console.log('User account is deleted.')
+           // redirect window
+           window.location.href = '/';
+        })
+        .catch(error => {
+            console.error('Error deleting account:', error);
+        });
+    } else {
+        // user does not confirm, redirect to account page
+        window.location.href = '/account';
+    }
 
 });
