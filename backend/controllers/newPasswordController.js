@@ -1,7 +1,7 @@
  // controller for /auth/newPassword route
 
 // password reset
-function newPasswordController(db, logger) { 
+function newPasswordController(db, logger, bcrypt) { 
     return function (req, res) {
         // pull token and new password from session
         const { token, password } = req.body;
@@ -19,7 +19,7 @@ function newPasswordController(db, logger) {
                 if (row.expiry >= currentTime) {
                     // token is still valid, proceed to update password.
                     db.run(`UPDATE users SET password = ? WHERE username = ?`, 
-                            [ bcrypt.hashSync(password, saltRounds), row.username ], (err) => {
+                            [ bcrypt.hashSync(password, Number(process.env.BCRYPT_SALT_ROUNDS)), row.username ], (err) => {
                         if (err) {
                             // password not updated in DB
                             console.error(err.message);

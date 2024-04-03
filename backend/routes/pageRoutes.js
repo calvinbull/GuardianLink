@@ -46,16 +46,17 @@ module.exports = function(db, logger, authorizationController, loggedOutControll
     // Messages page
     const messagesController = require('../controllers/messagesController') (db, logger, propertyLabels);
     router.get('/messages', authorizationController, messagesController);
-    
-    router.get('/messages', authorizationController, (req, res) => {
-        // authorizationController gatekeeps page to logged in users
-        res.render('pages/messages', { pageTitle: 'My Messages', currentPage: 'messages', user:req.user, propertyLabels: propertyLabels });
-    });
 
-    // resetPassword page
-    router.get('/resetPassword', (req, res) => {
+    // resetPassword page accessed from reset URL with token
+    router.get('/resetPassword', loggedOutController, (req, res) => {
         // token should be sent in the get request
         res.render('pages/resetPassword', { pageTitle: 'My Messages', currentPage: 'resetPassword', token:req.token });
+    });
+
+    // self-update password page
+    router.get('/updatePassword', authorizationController, (req, res) => {
+        // token should be sent in the get request
+        res.render('pages/updatePassword', { pageTitle: 'Update My Password', currentPage: 'updatePassword' });
     });
 
     // Export the routes

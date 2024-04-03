@@ -43,8 +43,12 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
     router.post('/forgotPassword', forgotPasswordController);
 
     // password reset
-    const newPasswordController = require('../controllers/newPasswordController');
+    const newPasswordController = require('../controllers/newPasswordController') (db, logger, bcrypt);
     router.post('/newPassword', newPasswordController);
+
+    // update user's own password
+    const selfUpdatePasswordController = require('../controllers/selfUpdatePasswordController') (db, logger, bcrypt);
+    router.post('/updatePassword', authorizationController, selfUpdatePasswordController);
 
     // admin password reset
     router.post('/adminPassword', adminController, (req, res) => {
