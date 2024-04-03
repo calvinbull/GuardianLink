@@ -24,8 +24,8 @@ function messagesController(db, logger, propertyLabels) {
             var existingConversations = [];
 
             // build sqlite3 query to return a list of userIDs that have interacted with the logged in user
-            var sqlQuery = `SELECT userID, MAX(name) as name, username
-            FROM users
+            var sqlQuery = `SELECT userID, MAX(name) as name, username, MAX(time) AS newest_timestamp
+            FROM users LEFT JOIN messages ON userID IN (senderID, receiverID)
             WHERE userID IN (
                 SELECT senderID AS userID
                 FROM messages
@@ -35,7 +35,8 @@ function messagesController(db, logger, propertyLabels) {
                 FROM messages
                 WHERE senderID = ?
             )
-            GROUP BY userID`;
+            GROUP BY userID
+            ORDER BY newest_timestamp DESC`;
 
             // retrieve all accounts that have interacted with the user
             db.all(sqlQuery, [req.user.userID, req.user.userID], function(err, accounts) {
