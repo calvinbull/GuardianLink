@@ -1,5 +1,6 @@
 <!-- account summary card, changes displayed fields based on user account type -->
 <!-- edit / message buttons conditional on which page the card is being loaded in to -->
+<!-- initiate user account type -->
 
 <div class="col-md-12 account-card" >
     <div class="card mb-3">
@@ -34,7 +35,7 @@
             
             </div>
 
-            <!-- rows other than 'name' gain collapseable property for use on connections page -->
+            <!-- rows that gain collapseable property for use on connections page -->
             <% if (currentPage == 'connections') { %>
             <div class="collapse" id="collapse<%= account.username %>">
             <% } %>
@@ -57,6 +58,23 @@
             <!-- add message button and close div for connections page -->
             <% if (currentPage == 'connections') { %>
                 <div class="row">
+
+                    <!-- add administration buttons only access to 'super' users, i.e. admin accounts -->
+                    <% if (accountType == 'super') { %>
+                        <div class="col  text-left">
+                            <!-- password reset button -->
+                            <button class="btn btn-primary password-reset-button" data-userID="<%= account.userID %>">Reset Password</button>
+                        </div>  
+
+                        <!-- add deletion button only if account is not another admin -->
+                        <% if (account.accountType != 'super') { %>
+                            <div class="col  text-center">
+                                <!-- delete account button -->
+                                <button class="btn btn-danger delete-account-button" data-userID="<%= account.userID %>">Delete account</button>
+                            </div>  
+                        <% } %>
+                    <% } %>
+
                     <div class="col  text-right">
                         <!-- message button -->
                         <a class="btn btn-info" href="/messages?sendTo=<%= account.username %>">Message</a>

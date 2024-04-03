@@ -3,6 +3,7 @@
 <!-- add first part of layout template -->
 <%- include('../layouts/layoutFirst.ejs') %>
 
+
 <!-- page body -->
 <h1>Connections</h1>
 <br>
@@ -28,7 +29,7 @@
     <!-- Iterate over accounts data to display account cards -->
     <% accounts.forEach(function(account) { %>
 
-        <%- include('../partials/accountCard.ejs', { account: account }) %>
+        <%- include('../partials/accountCard.ejs', { account: account, accountType: accountType }) %>
 
     <% }); %>
 </div>

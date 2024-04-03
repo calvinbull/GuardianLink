@@ -8,7 +8,7 @@ function connectionsController(db, logger, propertyLabels) {
         var accountProperties = [];
         if (req.user.accountType == 'super') {  
             accountTypes = ['super','organization', 'volunteer'];
-            accountProperties = ['name', 'username', 'email', 'availability', 'backgroundCheck', 'isCurrentlyAvailable', 'linkedin', 'concerns', 'missionStatement']; }
+            accountProperties = ['userID', 'accountType', 'name', 'username', 'email', 'availability', 'backgroundCheck', 'isCurrentlyAvailable', 'linkedin', 'concerns', 'missionStatement']; }
         if (req.user.accountType == 'organization') {  
             accountTypes = ['volunteer']; 
             accountProperties = ['name', 'username', 'email', 'availability', 'backgroundCheck', 'isCurrentlyAvailable', 'linkedin']; }
@@ -30,7 +30,7 @@ function connectionsController(db, logger, propertyLabels) {
             }
 
             // Render the "connections" page and pass the accounts data to the template
-            res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections', user:req.user, accounts: accounts, propertyLabels: propertyLabels});
+            res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections', user: req.user, accountType:  req.user.accountType.trim() , accounts: accounts, propertyLabels: propertyLabels});
         });
     }
 }
