@@ -7,6 +7,9 @@ function messagesController(db, logger, propertyLabels) {
         // variable to store all unique usernames for drop down selector
         var existingUsers = [];
 
+        // retrieve 'sendTo' username if it was passed in via a connection page button
+        var sendTo = req.query.sendTo;
+
         // query to find all unique users except the logged in one
         var usersQuery = `SELECT DISTINCT username FROM users WHERE username != ?`;
         db.all(usersQuery, [req.user.username], function(err, uniqueUsers) {
@@ -54,7 +57,8 @@ function messagesController(db, logger, propertyLabels) {
                         currentPage: 'messages',
                         user: req.user,
                         existingConversations: existingConversations,
-                        existingUsers: existingUsers
+                        existingUsers: existingUsers,
+                        sendTo: sendTo
                     });
                 }
 
@@ -104,7 +108,8 @@ function messagesController(db, logger, propertyLabels) {
                         currentPage: 'messages',
                         user: req.user,
                         existingConversations: existingConversations,
-                        existingUsers: existingUsers
+                        existingUsers: existingUsers,
+                        sendTo: sendTo
                     });
                 }).catch((err) => {
                     logger.error("Error rendering messages page: ", err);

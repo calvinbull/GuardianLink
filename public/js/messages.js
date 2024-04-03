@@ -22,15 +22,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // get username from first list item
         var firstUsername = existingConvs[0].username;
-        // pre-populate destinationUser field
+
+        // otherwise use the first username in the conversation list to pre-populate destinationUser field
         document.getElementById('destinationUser').value = firstUsername;
+
+
+        // check if a 'sendTo' button was pressed on the connections page
+        var parameters = new URLSearchParams(window.location.search);
+        var sendTo = parameters.get('sendTo');
+
+        if (sendTo) {
+            // use that username for the destination field
+            document.getElementById('destinationUser').value = sendTo;
+        } else {
+            // otherwise use the first username in the conversation list to pre-populate destinationUser field
+            document.getElementById('destinationUser').value = firstUsername;
+        }
 
         // 'scroll down' messages by default in order to show the latest message
         var scrollableMessages = document.querySelector('.scrollable-messages');
         scrollableMessages.scrollTop = scrollableMessages.scrollHeight;
 
     } catch (err) {
-        console.log("Error populating conversation header.");
+        console.log("Error populating conversation header: ", err );
     }
 
 });
