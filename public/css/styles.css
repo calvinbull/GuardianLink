@@ -35,7 +35,7 @@ main {
 .scrollable-messages {
     min-height: 40vh;
     max-height: 40vh;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 /* added scrollable window feature for when conversation list is too long */
@@ -44,5 +44,5 @@ main {
 .scrollable-conversations {
     min-height: 40vh;
     max-height: 40vh;
-    overflow-y: auto;
+    overflow-y: scroll;
 }

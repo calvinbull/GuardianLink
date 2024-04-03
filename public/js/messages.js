@@ -1,5 +1,4 @@
 // create datalist for selectable usernames
-
 document.addEventListener("DOMContentLoaded", function() {
 
     // Create a new datalist
@@ -70,6 +69,7 @@ document.getElementById('sendMessage').addEventListener('submit', function(event
 
 });
 
+
 // update conversation header block name & 'to' block when selecting a user
 document.addEventListener("DOMContentLoaded", function() {
     // fetch list of conversations from dynamic 'list-group'
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
         conversation.addEventListener('click', function(event) {
             // Prevent default link behavior
             event.preventDefault();
-
+          
             // get user's name
             var userName = conversation.innerText.trim();
             // update the conversation header
@@ -100,12 +100,12 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('destinationUser').value = convUsername;
 
 
-            // 'scroll down' the messages window to show latest
-            // need a better solution to avoid magic number
+            // 'scroll down' messages by default in order to show the latest message
+            // delay 'magic number' is required otherwise the scroll action with be attempted before messages are displayed
             setTimeout(function() {
                 var scrollableMessages = document.querySelector('.scrollable-messages');
                 scrollableMessages.scrollTop = scrollableMessages.scrollHeight;
-            }, 200);
+            }, 180);
 
         });
     });
