@@ -1,6 +1,6 @@
 
 // wrap all exports in a function in order to use the initial db connection reference
-module.exports = function(db, logger, passport, authorizationController, adminController, passwordResetToken) {
+module.exports = function(db, logger, passport, authorizationController, loggedOutController, adminController, passwordResetToken) {
     // POST routes
     const express = require('express');
     const router = express.Router();
@@ -20,7 +20,7 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
 
     // register user to database
     const registerController = require('../controllers/registerController') (db, logger, bcrypt);
-    router.post('/register', registerController);
+    router.post('/register', loggedOutController, registerController);
 
     // update user's own account information
     const updateController = require('../controllers/updateController') (db, logger);
@@ -40,21 +40,19 @@ module.exports = function(db, logger, passport, authorizationController, adminCo
 
     // forgotten password initial request
     const forgotPasswordController = require('../controllers/forgotPasswordController')(db, logger, passwordResetToken, transporter);
-    router.post('/forgotPassword', forgotPasswordController);
+    router.post('/forgotPassword', loggedOutController, forgotPasswordController);
+
+    // admin route to trigger password reset process for other accounts
+    // requires username, email - uses same route as regular password reset
+    router.post('/adminPasswordReset', adminController, forgotPasswordController);
 
     // password reset
     const newPasswordController = require('../controllers/newPasswordController') (db, logger, bcrypt);
-    router.post('/newPassword', newPasswordController);
+    router.post('/newPassword', loggedOutController, newPasswordController);
 
     // update user's own password
     const selfUpdatePasswordController = require('../controllers/selfUpdatePasswordController') (db, logger, bcrypt);
     router.post('/updatePassword', authorizationController, selfUpdatePasswordController);
-
-    // admin password reset
-    router.post('/adminPassword', adminController, (req, res) => {
-        // pull userID from admin's request body
-        const userID = req.body.userToReset;
-    });
 
     // login
     router.post('/login', passport.authenticate('local', {

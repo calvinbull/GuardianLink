@@ -31,6 +31,9 @@ document.getElementById('resetPassword').addEventListener('submit', function(eve
     .then(data => {
         // display the response message
         alert(data.message);
+        console.log(data.message);
+        // redirect to login
+        window.location.href = '/login';
     }).catch(err => {
         console.log('Error submitting reset request.');
     });

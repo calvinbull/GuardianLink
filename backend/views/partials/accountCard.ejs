@@ -63,7 +63,7 @@
                     <% if (accountType == 'super') { %>
                         <div class="col  text-left">
                             <!-- password reset button -->
-                            <button class="btn btn-primary password-reset-button" data-userID="<%= account.userID %>">Reset Password</button>
+                            <button class="btn btn-primary password-reset-button" data-username="<%= account.username %>" data-email="<%= account.email %>">Reset Password</button>
                         </div>  
 
                         <!-- add deletion button only if account is not another admin -->

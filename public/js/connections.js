@@ -16,9 +16,11 @@ document.addEventListener("DOMContentLoaded", function() {
             const name = card.querySelector(filter).textContent.toLowerCase();
 
             if (name.includes(query)) {
-                card.style.display = "block"; // Show the card if it matches the query
+                // show the card
+                card.style.display = "block"; 
             } else {
-                card.style.display = "none"; // Hide the card if it doesn't match
+                // hide the card
+                card.style.display = "none"; 
             }
         });
     });
@@ -28,9 +30,40 @@ document.addEventListener("DOMContentLoaded", function() {
 // add event listeners to password reset buttons
 document.querySelectorAll('.password-reset-button').forEach(function(button) {
     button.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default behavior of the button
+        // prevent the default behavior of the button
+        event.preventDefault();
     
         // TODO: Implement password reset function
+        // get username and email from button data attributes
+        var username = button.dataset.username;
+        var email = button.dataset.email;
+
+        // confirm password reset action via popup
+        if (confirm("Are you sure you want to initiate a password reset for this account?")) {
+            // admin confirms intent to reset password
+
+            // Make a POST request to reset password
+            fetch('/auth/adminPasswordReset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email })
+            })
+            .then(function(response) {
+                // Handle the response accordingly
+                if (response.ok) {
+                    console.log('Password reset initiated successfully');
+                } else {
+                    console.error('Error deleting account');
+                }
+            })
+            .catch(function(error) {
+                console.error('Error during deletion POST request:', error);
+            });
+        } else {
+            // admin chooses not to reset password, do nothing
+        }
     });
 });
 
@@ -40,7 +73,7 @@ document.querySelectorAll('.delete-account-button').forEach(function(button) {
         // prevent the default behavior of the button
         event.preventDefault(); 
         
-        // Get the username of the account to be deleted from the button's data attribute
+        // Get the userID of the account to be deleted from the button's data attribute
         var userToDelete = button.dataset.userid;
         
         // confirm admin wishes to delete this account with a popup

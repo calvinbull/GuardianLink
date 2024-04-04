@@ -20,8 +20,10 @@ document.getElementById('forgottenPassword').addEventListener('submit', function
     .then(data => {
         // display the response message
         alert(data.message);
+        // redirect to login
+        window.location.href = '/login';
     }).catch(err => {
-        console.log('Error sending reset request.');
+        console.error('Error sending reset request: ', err);
     });
 
 

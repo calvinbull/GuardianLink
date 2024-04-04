@@ -6,6 +6,7 @@ function adminController(req, res, next) {
 
     } else {
         // no admin logged in, bounce to login screen
+        console.log("Admin controller check failed.")
         return res.status(403).send("Unauthorized request. Admin privileges required.");
     }
 }
