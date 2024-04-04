@@ -46,3 +46,20 @@ main {
     max-height: 40vh;
     overflow-y: scroll;
 }
+
+/* add CSS styles specific to the home page here: */
+.home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#splash {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#about {
+    position: absolute;
+    top: 100%;
+}

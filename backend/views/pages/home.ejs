@@ -4,10 +4,39 @@
 <%- include('../layouts/layoutFirst.ejs') %>
 
 <!-- page body -->
-<h1>Welcome to GuardianLink</h1>
-<br>
+<div class="home container">
+    <div id="splash" class="text-center my-4">
+        <h1 class="text-center my-4">Welcome to GuardianLink</h1>
+        <p class="lead text-center">Connecting cybersecurity volunteers with non-profit organizations in need.</p>
+        <button id="learnMore" class="btn btn-primary">Learn More</button>
+    </div>
 
-<p>This is the homepage of GuardianLink. We connect cybersecurity volunteers with non-profit organizations in need.</p>
+    <div id="about" class="my-5">
+        <h2 class="text-center mb-4">About Us</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Who we are?</h3>
+                <p>GuardianLink is a platform dedicated to bridging the gap between providers of cybersecurity specialists and clients in need of these services.</p>
+            </div>
+            <div class="col-md-6">
+                <h3>What we do?</h3>
+                <p>Our primary focus is on supporting non-profit organizations at no cost to them. Cybersecurity professionals seeking to volunteer can easily join through our web application to offer their expertise and aid.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Why we do it?</h3>
+                <p>Our overarching goal is to seamlessly connect these two ends of the spectrum, ensuring that the need for cybersecurity assistance within non-profit organizations is met by dedicated and skilled volunteers.</p>
+            </div>
+            <div class="col-md-6">
+                <h3>Partnerships</h3>
+                <p>At GuardianLink, we are proud to partner with a variety of organizations to further our mission. (You can list your real or fictitious partners here)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/home.js"></script>
 
 <!-- add last part of layout template -->
 <%- include('../layouts/layoutLast.ejs') %>
