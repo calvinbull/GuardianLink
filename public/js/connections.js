@@ -106,3 +106,43 @@ document.querySelectorAll('.delete-account-button').forEach(function(button) {
         }
     });
 });
+
+// add event listeners to promote account buttons
+document.querySelectorAll('.promote-account-button').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        // prevent the default behavior of the button
+        event.preventDefault(); 
+        
+        // Get the userID of the account to be deleted from the button's data attribute
+        var userToPromote = button.dataset.userid;
+        
+        // confirm admin wishes to delete this account with a popup
+        if (confirm("Are you sure you want to promote this user account to an administrator?")) {
+            // admin confirms intent to delete the account
+
+            // Make a POST request to delete the account
+            fetch('/auth/adminPromote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userToPromote: userToPromote })
+            })
+            .then(function(response) {
+                // Handle the response accordingly
+                if (response.ok) {
+                    console.log('Account promoted successfully');
+                    // refresh window
+                    window.location.href = '/connections';
+                } else {
+                    console.error('Error promoting account.');
+                }
+            })
+            .catch(function(error) {
+                console.error('Error during promition POST request:', error);
+            });
+        } else {
+            // admin chooses not to delete, do nothing
+        }
+    });
+});
