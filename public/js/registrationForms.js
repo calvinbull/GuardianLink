@@ -43,19 +43,23 @@ document.getElementById('VolunteerRegistration').addEventListener('submit', func
     // sent post request to add account to db
     const newAccount = JSON.stringify({ accountType, name, username, email, password, 
         availability, backgroundCheck, isCurrentlyAvailable, linkedin, concerns, missionStatement });
-    try {
-        fetch('/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: newAccount
-        });
-        console.log('New user account registered.');
-    } catch (err) {
-        console.log('Error registering user during form POST request.');
-    }
-    
+    fetch('/auth/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: newAccount
+    }).then(response => {
+        if (response.redirected) {
+            console.log('New user account registered.');
+            // redirect to login page
+            window.location.href = response.url;
+        } else {
+            console.log('Error redirecting after user registration.')
+        }
+    }).catch(err => {
+        console.error('Error during registration: ', err);
+    });
 });
 
 document.getElementById('OrganizationRegistration').addEventListener('submit', function(event) {
