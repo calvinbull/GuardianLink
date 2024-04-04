@@ -30,7 +30,13 @@ function connectionsController(db, logger, propertyLabels) {
             }
 
             // Render the "connections" page and pass the accounts data to the template
-            res.render('pages/connections', { pageTitle: 'Connections', currentPage: 'connections', user: req.user, accountType:  req.user.accountType.trim() , accounts: accounts, propertyLabels: propertyLabels});
+            res.render('pages/connections', { 
+                pageTitle: 'Connections', 
+                currentPage: 'connections', 
+                user: req.user, 
+                accountType: req.user.accountType.trim(), 
+                accounts: accounts, 
+                propertyLabels: propertyLabels});
         });
     }
 }

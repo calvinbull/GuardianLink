@@ -1,0 +1,45 @@
+<!-- form to be used for Non-profits and NGOs -->
+<form id="registrationForm">
+    Create a new <b>Organization</b> account by completing the following registration form:
+    <hr>
+    <input type="hidden" id="accountType" name="accountType" value="organization">
+
+    <div class="form-group">
+        <label for="name">Organization Name:</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Organization" required>
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+    </div>
+
+    <div class="form-group">
+        <label for="registrationEmail">Point of Contact Email Address:</label>
+        <input type="email" class="form-control" id="registrationEmail" name="registrationEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="registrationPassword">Password:</label>
+        <input type="password" class="form-control" id="registrationPassword" name="registrationPassword" placeholder="Password" required>
+    </div>
+
+    <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required>
+        <div id="passwordError" style="color: red; display: none;">Passwords do not match</div>
+    </div>
+
+    <div class="form-group">
+        <label for="concerns">Areas of Concern:</label>
+        <input type="text" class="form-control" id="concerns" name="concerns" placeholder="Data Protection and Privacy; Phishing; Training and Awareness..." required>
+    </div>
+
+    <div class="form-group">
+        <label for="missionStatement">Mission Statement:</label>
+        <input type="text" class="form-control" id="missionStatement" name="missionStatement" placeholder="Add your organization's mission statement here." required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+
+</form>

@@ -1,38 +1,38 @@
 <!-- form to be used for Volunteers (Cybersecurity Specialists) -->
-<form id="VolunteerRegistration" style="display: none;">
-    Become a volunteer by completing the following Volunteer Registration form:
-
-    <input type="hidden" id="accountTypeV" name="accountType" value="volunteer">
+<form id="registrationForm">
+    Create a new <b>Volunteer</b> account by completing the following registration form:
+    <hr>
+    <input type="hidden" id="accountType" name="accountType" value="volunteer">
 
     <div class="form-group">
         <label for="name">Full Name:</label>
-        <input type="text" class="form-control" id="nameV" name="name" placeholder="Firstname Lastname" required>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Firstname Lastname" required>
     </div>
 
     <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" id="usernameV" name="username" placeholder="Username" required>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
     </div>
 
     <div class="form-group">
     <label for="registrationEmail">Email address:</label>
-    <input type="email" class="form-control" id="registrationEmailV" name="registrationEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
+    <input type="email" class="form-control" id="registrationEmail" name="registrationEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
     </div>
 
     <div class="form-group">
         <label for="registrationPassword">Password:</label>
-        <input type="password" class="form-control" id="registrationPasswordV" name="registrationPassword" placeholder="Password" required>
+        <input type="password" class="form-control" id="registrationPassword" name="registrationPassword" placeholder="Password" required>
     </div>
 
     <div class="form-group">
         <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" class="form-control" id="confirmPasswordV" name="confirmPassword" required>
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required>
         <div id="passwordError" style="color: red; display: none;">Passwords do not match</div>
     </div>
 
     <div class="form-group">
         <label class="my-1 mr-2" for="availability">Weekly availability:</label>
-        <select class="custom-select my-1 mr-sm-2" id="availabilityV" name="availability" required>
+        <select class="custom-select my-1 mr-sm-2" id="availability" name="availability" required>
         <option selected>Choose...</option>
         <option value="0-10">0-10 hrs</option>
         <option value="11-20">11-20 hrs</option>
@@ -44,7 +44,7 @@
 
     <div class="form-group">
         <label class="my-1 mr-2" for="backgroundCheck">Do you possess a valid criminal background check?</label>
-        <select class="custom-select my-1 mr-sm-2" id="backgroundCheckV" name="backgroundCheck" required>
+        <select class="custom-select my-1 mr-sm-2" id="backgroundCheck" name="backgroundCheck" required>
         <option selected>Choose...</option>
         <option value="Yes">Yes</option>
         <option value="No">No</option>
@@ -53,7 +53,7 @@
 
     <div class="form-group">
         <label class="my-1 mr-2" for="currentlyAvailable">Are you currently available to work?</label>
-        <select class="custom-select my-1 mr-sm-2" id="currentlyAvailableV" name="currentlyAvailable" required>
+        <select class="custom-select my-1 mr-sm-2" id="currentlyAvailable" name="currentlyAvailable" required>
         <option selected>Choose...</option>
         <option value="Yes">Yes</option>
         <option value="No">No</option>
@@ -62,7 +62,7 @@
 
     <div class="form-group">
         <label for="linkedin">LinkedIn Profile:</label>
-        <input type="url" class="form-control" id="linkedinV" name="linkedin" placeholder="https://www.linkedin.com/in/.../">
+        <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/.../">
     </div>
 
     <button type="submit" class="btn btn-primary">Register</button>

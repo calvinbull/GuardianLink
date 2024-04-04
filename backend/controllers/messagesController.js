@@ -58,7 +58,8 @@ function messagesController(db, logger, propertyLabels) {
                         user: req.user,
                         existingConversations: existingConversations,
                         existingUsers: existingUsers,
-                        sendTo: sendTo
+                        sendTo: sendTo,
+                        accountType: req.user.accountType.trim()
                     });
                 }
 
@@ -109,7 +110,8 @@ function messagesController(db, logger, propertyLabels) {
                         user: req.user,
                         existingConversations: existingConversations,
                         existingUsers: existingUsers,
-                        sendTo: sendTo
+                        sendTo: sendTo,
+                        accountType: req.user.accountType.trim()
                     });
                 }).catch((err) => {
                     logger.error("Error rendering messages page: ", err);

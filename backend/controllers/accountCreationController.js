@@ -1,6 +1,6 @@
-// register user to database
+// register user to database from Admin's account creation page
 
-function registerController(db, logger, bcrypt) {
+function accountCreationController(db, logger, bcrypt) {
     return function(req, res) {
         // route control logic here
 
@@ -30,4 +30,4 @@ function registerController(db, logger, bcrypt) {
 }
 
 // export controller
-module.exports = registerController;
+module.exports = accountCreationController;

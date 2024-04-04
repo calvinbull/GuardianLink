@@ -4,37 +4,47 @@
 <%- include('../layouts/layoutFirst.ejs') %>
 
 <!-- page body -->
-<h1>Register for a new GuardianLink account</h1>
+<h1>Create a new account</h1>
 <br>
 
 <fieldset class="form-group">
     <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Select the applicable option:</legend>
+      <legend class="col-form-label col-sm-2 pt-0">Select the desired account type:</legend>
       <div class="col-sm-10">
 
         <div class="form-check">
           <input class="form-check-input" type="radio" name="gridRadios" id="registerOrganization" value="organization">
           <label class="form-check-label" for="registerOrganization">
-            I represent a Non-Profit Organization or NGO
+           Non-Profit Organization or NGO
           </label>
         </div>
 
         <div class="form-check">
           <input class="form-check-input" type="radio" name="gridRadios" id="registerVolunteer" value="volunteer">
           <label class="form-check-label" for="registerIndividual">
-            I am an individual volunteer (Cybersecurity Specialist)
+            Individual volunteer (Cybersecurity Specialist)
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="gridRadios" id="registerAdmin" value="admin">
+          <label class="form-check-label" for="registerAdmin">
+            Admin (super user)
           </label>
         </div>
 
       </div>
     </div>
 </fieldset> 
+<br>
 
 <div id="dynamicFormContainer">
   <!-- Dynamically inserted form goes here. -->
 </div>
 
-<script src="/js/registrationForms.js"></script>
+
+
+<script src="/js/accountCreation.js"></script>
 
 <!-- add last part of layout template -->
 <%- include('../layouts/layoutLast.ejs') %>

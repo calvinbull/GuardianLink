@@ -1,4 +1,4 @@
-module.exports = function(db, logger, authorizationController, loggedOutController, propertyLabels) {
+module.exports = function(db, logger, authorizationController, adminController, loggedOutController, propertyLabels) {
 
     // GET routes
     const express = require('express');
@@ -9,7 +9,8 @@ module.exports = function(db, logger, authorizationController, loggedOutControll
 
     // default route
     router.get('/', (req, res) => {
-        res.render('pages/home', { pageTitle: 'Home', currentPage: 'home' });
+        const accountType = req.user ? req.user.accountType.trim() : null;
+        res.render('pages/home', { pageTitle: 'Home', currentPage: 'home', accountType: accountType });
     });
 
     // login
@@ -34,13 +35,19 @@ module.exports = function(db, logger, authorizationController, loggedOutControll
     // My account page
     router.get('/account', authorizationController, (req, res) => {
         // authorizationController gatekeeps page to logged in users
-        res.render('pages/account', { pageTitle: 'My Account', currentPage: 'account', account: req.user, propertyLabels: propertyLabels });
+        res.render('pages/account', { pageTitle: 'My Account', currentPage: 'account', account: req.user, propertyLabels: propertyLabels, accountType: req.user.accountType.trim() });
+    });
+
+    // Account creation page for admins only
+    router.get('/accountCreation', adminController, (req, res) => {
+        // adminController gatekeeps page to admins only
+        res.render('pages/accountCreation', { pageTitle: 'Account Creation', currentPage: 'accountCreation', propertyLabels: propertyLabels, accountType: req.user.accountType.trim() });
     });
 
     // Edit my account page
     router.get('/accountEdit', authorizationController, (req, res) => {
         // authorizationController gatekeeps page to logged in users
-        res.render('pages/accountEdit', { pageTitle: 'Edit Account Information', currentPage: 'accountEdit', account: req.user, propertyLabels: propertyLabels });
+        res.render('pages/accountEdit', { pageTitle: 'Edit Account Information', currentPage: 'accountEdit', account: req.user, propertyLabels: propertyLabels, accountType: req.user.accountType.trim() });
     });
 
     // Messages page
@@ -56,7 +63,7 @@ module.exports = function(db, logger, authorizationController, loggedOutControll
     // self-update password page
     router.get('/updatePassword', authorizationController, (req, res) => {
         // token should be sent in the get request
-        res.render('pages/updatePassword', { pageTitle: 'Update My Password', currentPage: 'updatePassword' });
+        res.render('pages/updatePassword', { pageTitle: 'Update My Password', currentPage: 'updatePassword', accountType: req.user.accountType.trim() });
     });
 
     // Export the routes

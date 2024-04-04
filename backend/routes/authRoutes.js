@@ -22,6 +22,10 @@ module.exports = function(db, logger, passport, authorizationController, loggedO
     const registerController = require('../controllers/registerController') (db, logger, bcrypt);
     router.post('/register', loggedOutController, registerController);
 
+    // admin route to create new account
+    const accountCreationController = require('../controllers/accountCreationController') (db, logger, bcrypt);
+    router.post('/accountCreation', adminController, accountCreationController);
+
     // update user's own account information
     const updateController = require('../controllers/updateController') (db, logger);
     router.post('/accountUpdate', authorizationController, updateController);

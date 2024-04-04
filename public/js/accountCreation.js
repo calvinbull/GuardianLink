@@ -19,7 +19,7 @@ document.querySelectorAll('input[name="gridRadios"]').forEach(function(radio) {
 });
 
 
-// Add event listener to dynamically created registration form
+// Add event listener for submit events
 document.addEventListener('submit', function(event) {
     // check if the subit event happened within a registrationForm
     if(event.target.id === 'registrationForm') {
@@ -53,7 +53,7 @@ document.addEventListener('submit', function(event) {
         // sent post request to add account to db
         const newAccount = JSON.stringify({ accountType, name, username, email, password, 
             availability, backgroundCheck, isCurrentlyAvailable, linkedin, concerns, missionStatement });
-        fetch('/auth/register', {
+        fetch('/auth/accountCreation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,10 +65,11 @@ document.addEventListener('submit', function(event) {
             alert(data.message);
             console.log('New user account registered.');
             // redirect to login page
-            window.location.href = '/login'
+            window.location.href = '/accountCreation'
         }).catch(err => {
             console.error('Error during registration: ', err);
         });
+
     }
 
 });
