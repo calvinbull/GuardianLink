@@ -63,21 +63,28 @@
 
                     <!-- add administration buttons only access to 'super' users, i.e. admin accounts -->
                     <% if (accountType == 'super') { %>
-                        <div class="col  text-left">
+                        <div class="col mt-2 mb-2 text-left">
                             <!-- password reset button -->
                             <button class="btn btn-primary password-reset-button" data-username="<%= account.username %>" data-email="<%= account.email %>">Reset Password</button>
-                        </div>  
+                        </div>
 
-                        <!-- add deletion button only if account is not another admin -->
+                        <!-- add deletion and promotion buttons only if account is not another admin -->
                         <% if (account.accountType != 'super') { %>
-                            <div class="col  text-center">
+
+                            <div class="col text-left mt-2 mb-2">
+                                <!-- promote account button -->
+                                <button class="btn btn-success promote-account-button" data-userID="<%= account.userID %>">Promote to Admin</button>
+                            </div>  
+
+                            <div class="col text-left mt-2 mb-2">
                                 <!-- delete account button -->
                                 <button class="btn btn-danger delete-account-button" data-userID="<%= account.userID %>">Delete account</button>
                             </div>  
+
                         <% } %>
                     <% } %>
 
-                    <div class="col  text-right">
+                    <div class="col mt-2 mb-2 text-right">
                         <!-- message button -->
                         <a class="btn btn-info" href="/messages?sendTo=<%= account.username %>">Message</a>
                     </div>
