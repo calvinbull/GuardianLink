@@ -21,7 +21,6 @@
   "homepage": "https://github.com/calvinbull/GuardianLink#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.18.3",
@@ -30,13 +29,11 @@
     "express-sslify": "^1.2.0",
     "express-validator": "^7.0.1",
     "helmet": "^7.1.0",
-    "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "sqlite3": "^5.1.7",
-    "typeahead-standalone": "^4.25.1",
     "winston": "^3.12.0"
   }
 }
