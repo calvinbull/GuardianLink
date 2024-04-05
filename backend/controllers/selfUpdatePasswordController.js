@@ -3,6 +3,12 @@
 // password reset
 function selfUpdatePasswordController(db, logger, bcrypt) { 
     return function (req, res) {
+
+        // prevent ceratin attack attempts by not processing incomplete requests
+        if (!req.body) {
+            return ;
+        }
+
         // pull new password from session
         const { password } = req.body;
 

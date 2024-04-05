@@ -4,10 +4,16 @@ function accountCreationController(db, logger, bcrypt) {
     return function(req, res) {
         // route control logic here
 
+        // prevent ceratin attack attempts by not processing incomplete requests
+        if (!req.body) {
+            return ;
+        }
+
         const { accountType, name, username, email, password, 
             availability, backgroundCheck, isCurrentlyAvailable, 
             linkedin, concerns, missionStatement } = req.body;
             
+
         db.run(`INSERT INTO users (accountType, name, username, email, password, 
                     availability, backgroundCheck, isCurrentlyAvailable, 
                     linkedin, concerns, missionStatement) 

@@ -2,6 +2,11 @@
 function updateController(db, logger) {
     return function(req, res) {
 
+        // prevent ceratin attack attempts by not processing incomplete requests
+        if (!req.body || !req.user) {
+            return ;
+        }
+
         // pull all relevant updates from req body, set any non-relevant properties to null
         const { name= null, username= null, email= null,
             availability= null, backgroundCheck= null, isCurrentlyAvailable= null, 

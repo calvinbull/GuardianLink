@@ -7,6 +7,11 @@ function forgotPasswordController(db, logger, passwordResetToken, transporter) {
         // pull account info from request
         const { username, email } = req.body;
 
+        // prevent attack attempts by not processing incomplete requests
+        if (!username || !email) {
+            return ;
+        }
+
         // check if unique username / email pair exist
         db.get('SELECT email FROM users WHERE username = ?', [username], (err, dbEmail) => {
             if (err) {

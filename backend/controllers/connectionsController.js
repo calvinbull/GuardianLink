@@ -3,6 +3,12 @@
 function connectionsController(db, logger, propertyLabels) {
     return function(req, res) {
         // authorizationController gatekeeps page to logged in users
+
+        // prevent ceratin attack attempts by not processing incomplete requests
+        if (!req.user) {
+            return ;
+        }
+
         // identify which account types should be displayed
         var accountTypes = [];
         var accountProperties = [];

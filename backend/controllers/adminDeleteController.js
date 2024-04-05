@@ -4,6 +4,11 @@ function adminDeleteController(db, logger) {
     return function(req, res) {
         // route control logic here
 
+        // prevent ceratin attack attempts by not processing incomplete requests
+        if (!req.body) {
+            return ;
+        }
+
         // pull userID from admin's request body
         const userID = req.body.userToDelete;
 

@@ -29,6 +29,8 @@ document.getElementById('updatePassword').addEventListener('submit', function(ev
     .then(data => {
         // display the response message
         alert(data.message);
+        window.location.href = '/account';
+
     }).catch(err => {
         console.log('Error submitting reset request.');
     });

@@ -2,6 +2,12 @@
 
 function sendMessageController(db, logger) {
     return function(req, res) {
+
+        // prevent ceratin attack attempts by not processing incomplete requests
+        if (!req.body || !req.user) {
+            return ;
+        }
+
         // pull required info from request
         var senderID = req.user.userID;
         var message = req.body.message;

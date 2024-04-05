@@ -1,3 +1,8 @@
+// load existing users from res render
+var existingUsers = JSON.parse(document.getElementById('existingUsers').value);
+// note the existingConversation object is formatted: [{ userID, name, username, messages[] }]
+var existingConvs = JSON.parse(document.getElementById('existingConvs').value);
+
 // create datalist for selectable usernames
 document.addEventListener("DOMContentLoaded", function() {
 

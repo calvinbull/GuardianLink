@@ -4,11 +4,8 @@
 <%- include('../layouts/layoutFirst.ejs') %>
 
 <!-- load existing users from res render -->
-<script>
-    var existingUsers = <%- JSON.stringify(existingUsers) %>;
-    // note the existingConversation object is formatted: [{ userID, name, username, messages[] }]
-    var existingConvs = <%- JSON.stringify(existingConversations) %>;
-</script>
+<input type="hidden" id="existingUsers" value="<%= JSON.stringify(existingUsers) %>">
+<input type="hidden" id="existingConvs" value="<%= JSON.stringify(existingConversations) %>">
 
 <!-- page body -->
 <h1>My Messages</h1>
@@ -129,9 +126,6 @@
 
 </div>
 
-<script>
-
-</script>
 
 <script src="/js/messages.js"></script>
 

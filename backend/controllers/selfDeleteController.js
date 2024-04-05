@@ -3,6 +3,12 @@
 function selfDeleteController(db, logger) {
     return function(req, res) {
         // route control logic here
+
+        // prevent ceratin attack attempts by not processing incomplete requests
+        if (!req.user) {
+            return ;
+        }
+
         // pull userID from session
         const userID = req.user.userID;
 
