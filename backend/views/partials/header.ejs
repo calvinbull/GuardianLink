@@ -25,8 +25,12 @@
               </li>
 
               <!-- right-aligned links: -->
+              <li class="nav-item ml-auto">
+                <!-- empty list item used only as a spacer to push remaining items right -->
+                <!-- this method improves the nav bar display on mobile -->
+              </li>
 
-              <li class="nav-item ml-auto <%= currentPage === 'account' ? 'active' : '' %>">
+              <li class="nav-item <%= currentPage === 'account' ? 'active' : '' %>">
                 <a class="nav-link" href="/account">My Account</a>
               </li>
 
@@ -44,7 +48,12 @@
             <% } else { %>
               <!-- Elements to show when user is not logged in -->
               <!-- right-aligned links: -->
-              <li class="nav-item ml-auto" <%= currentPage === 'login' ? 'active' : '' %>>
+              <li class="nav-item ml-auto">
+                <!-- empty list item used only as a spacer to push remaining items right -->
+                <!-- this method improves the nav bar display on mobile -->
+              </li>
+
+              <li class="nav-item" <%= currentPage === 'login' ? 'active' : '' %>>
                 <a class="nav-link" href="/login">Login</a>
               </li>
               <li class="nav-item" <%= currentPage === 'register' ? 'active' : '' %>>
