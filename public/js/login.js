@@ -28,3 +28,15 @@ document.getElementById('login').addEventListener('submit', function(event) {
     });
 
 });
+
+
+// add event listener function to toggle password fields between 'password' and 'text'
+document.getElementById("showPasswordCheckbox").addEventListener("click", showLoginPassword);
+function showLoginPassword() {
+    var pass = document.getElementById("password");
+    if (pass.type === "password") {
+        pass.type = "text";
+    } else {
+        pass.type = "password";
+    }
+}
