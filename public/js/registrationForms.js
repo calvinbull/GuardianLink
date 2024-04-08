@@ -1,3 +1,18 @@
+// function to toggle password fields between 'password' and 'text' during account registration actions
+function showPassword() {
+    var pass = document.getElementById("registrationPassword");
+    var confirm = document.getElementById("confirmPassword");
+    if (pass.type === "password" && confirm.type === "password") {
+        pass.type = "text";
+        confirm.type = "text";
+    } else {
+        pass.type = "password";
+        confirm.type = "password";
+    }
+}
+
+
+
 // initialize variable to store destination div for dynamic forms:
 var dynamicFormContainer = document.getElementById('dynamicFormContainer');
 
@@ -14,7 +29,11 @@ document.querySelectorAll('input[name="gridRadios"]').forEach(function(radio) {
             .then(response => response.text())
             .then(html => {
             dynamicFormContainer.innerHTML = html;
+            
+            // add event listener function to toggle password fields between 'password' and 'text'
+            document.getElementById("showPasswordCheckbox").addEventListener("click", showPassword);
         }).catch(err => console.error(err));
+
     });
 });
 
@@ -72,3 +91,7 @@ document.addEventListener('submit', function(event) {
     }
 
 });
+
+
+
+

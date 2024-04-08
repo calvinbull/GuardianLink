@@ -39,3 +39,19 @@ document.getElementById('resetPassword').addEventListener('submit', function(eve
     });
 
 });
+
+// add event listener function to toggle password fields between 'password' and 'text'
+document.getElementById("showPasswordCheckbox").addEventListener("click", showPassword);
+
+// function to toggle password fields between 'password' and 'text' while updating password
+function showPassword() {
+    var pass = document.getElementById("password");
+    var confirm = document.getElementById("confirmPassword");
+    if (pass.type === "password" && confirm.type === "password") {
+        pass.type = "text";
+        confirm.type = "text";
+    } else {
+        pass.type = "password";
+        confirm.type = "password";
+    }
+}

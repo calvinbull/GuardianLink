@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // not working as intended
     learnMoreButton.addEventListener('click', function() {
         window.scrollTo({
-            top: aboutDiv.offsetTop - (window.innerHeight * .02),
+            top: aboutDiv.offsetTop - (window.innerHeight * .08),
             behavior: 'smooth'
         });
     });
